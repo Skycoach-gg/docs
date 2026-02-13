@@ -1,0 +1,29 @@
+# Get API Token
+
+> Home / Get API Token
+
+Follow this guide to generate a new API token and pass it to the Currency Marketplace endpoints.
+
+## Generate an API token
+
+1. Open the [SkyCoach API Keys page](https://skycoach.gg/pro/apiKeys).
+2. Click **Generate key** and enter a descriptive name (maximum 50 characters).
+3. A token similar to `1fcae87ee5581413b7a1152f495e19a28e9e6427727678d0eb32b32797c41e6c` will be created.
+
+**IMPORTANT: Save the token immediately — it is displayed only once.** Do not share it with third parties; anyone holding the token can control your offers.
+
+If you delete a token on the API Keys page, it is removed permanently and cannot be used again. Create a new token if you need to restore access.
+
+## Call APIs with the token
+
+```
+Authorization: Bearer <your token>
+```
+
+Example request:
+
+```
+GET {BASE_URL}/api/shop/marketplace/products/list
+Authorization: Bearer <your token>
+Accept: application/json
+```

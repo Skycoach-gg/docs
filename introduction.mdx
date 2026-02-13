@@ -1,0 +1,28 @@
+# SkyCoach API
+
+Home / [Get API Token](get-api-token)
+
+Minimal starting point for Marketplace API integrations.
+
+## Base route
+
+- Base domain: `https://skycoach.gg`
+- Marketplace root: `https://skycoach.gg/api/shop/marketplace`
+
+Examples:
+
+```
+https://skycoach.gg/api/shop/marketplace
+https://skycoach.gg/api/shop/marketplace/products/list
+```
+
+## Quick start
+
+Follow the [token guide](get-api-token) to issue and store your bearer secret, then use these core endpoints:
+
+- To retrieve the list of available products for creating offers: `GET /api/shop/marketplace/products/list` ([API reference](https://123-f571222f.mintlify.app/api-reference/currency-marketplace/get-product-list)).
+- To get a list of your existing offers: `GET /api/shop/marketplace/offers/my` ([API reference](https://123-f571222f.mintlify.app/api-reference/offers/show-my-offers)).
+- To create a new offer or update an existing one for a specific product: `POST /api/shop/marketplace/offers/{productId}/manage` ([API reference](https://123-f571222f.mintlify.app/api-reference/offers/manage-offer-create-or-edit-with-automatic-status-determination)).
+- To retrieve offer credentials (login(s) and password(s)): `GET /api/shop/marketplace/offers/{offerId}/credentials` ([API reference](https://123-f571222f.mintlify.app/api-reference/offer-credentials/get-list-of-credentials-for-offer)).
+
+For detailed route descriptions, see the API Reference at [https://123-f571222f.mintlify.app/api-reference/](https://123-f571222f.mintlify.app/api-reference/), or jump directly to the [token instructions](get-api-token).
