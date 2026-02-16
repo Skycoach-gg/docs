@@ -61,15 +61,12 @@ The SkyCoach Marketplace API uses consistent JSON response formats across all en
 - **Error details**: Comprehensive error messages with context
 - **Timestamps**: ISO 8601 formatted timestamps
 
-See the [API Overview](./marketplace-api-overview.md) for detailed response format documentation.
-
 ## Rate Limiting
 
 All API requests are subject to rate limiting to ensure service stability and fair usage:
 
 - **Global Limit**: 120 requests per minute
 - **Shared Across Endpoints**: All marketplace endpoints share the same rate limit pool
-- **Burst Capacity**: Up to 10 requests in the first second
 - **Reset Window**: Rolling 60-second window
 
 Rate limit information is included in response headers (`X-RateLimit-*`). See our [Rate Limiting Guide](./marketplace-api-overview.md#rate-limiting) for best practices on handling rate limits effectively, including exponential backoff strategies.
@@ -108,5 +105,5 @@ Ready to start building? Follow these steps:
 
 ---
 
-**Ready to integrate?** Start with [getting your API token](./get-api-token) and make your first request to the SkyCoach Marketplace API.
+**Ready to integrate?** Start with [getting your API token](./get-product-list) and make your first request to the SkyCoach Marketplace API.
 
