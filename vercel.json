@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/docs",
+      "destination": "https://api.skycoach.gg.mintlify.dev/docs"
+    },
+    {
+      "source": "/docs/:match*",
+      "destination": "https://api.skycoach.gg.mintlify.dev/docs/:match*"
+    }
+  ]
+}
