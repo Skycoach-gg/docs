@@ -1,28 +1,112 @@
-# SkyCoach API
+# SkyCoach Marketplace API
 
-Home / [Get API Token](get-api-token)
+> ** REST API for automating your marketplace workflows on SkyCoach**
 
-Minimal starting point for Marketplace API integrations.
+Welcome to SkyCoach Marketplace API — your gateway to programmatically manage products, offers, credentials, and marketplace operations. Our API enables seamless integration of SkyCoach's marketplace functionality into your business tools and automated workflows.
 
-## Base route
+## Base URL
 
-- Base domain: `https://skycoach.gg`
-- Marketplace root: `https://skycoach.gg/api/shop/marketplace`
-
-Examples:
+All API requests should be made to:
 
 ```
 https://skycoach.gg/api/shop/marketplace
-https://skycoach.gg/api/shop/marketplace/products/list
 ```
 
-## Quick start
+Make sure to include the full path `/api/shop/marketplace` in your API calls.
 
-Follow the [token guide](get-api-token) to issue and store your bearer secret, then use these core endpoints:
+**Examples:**
 
-- To retrieve the list of available products for creating offers: `GET /api/shop/marketplace/products/list` ([API reference](https://123-f571222f.mintlify.app/api-reference/currency-marketplace/get-product-list)).
-- To get a list of your existing offers: `GET /api/shop/marketplace/offers/my` ([API reference](https://123-f571222f.mintlify.app/api-reference/offers/show-my-offers)).
-- To create a new offer or update an existing one for a specific product: `POST /api/shop/marketplace/offers/{productId}/manage` ([API reference](https://123-f571222f.mintlify.app/api-reference/offers/manage-offer-create-or-edit-with-automatic-status-determination)).
-- To retrieve offer credentials (login(s) and password(s)): `GET /api/shop/marketplace/offers/{offerId}/credentials` ([API reference](https://123-f571222f.mintlify.app/api-reference/offer-credentials/get-list-of-credentials-for-offer)).
+```
+https://skycoach.gg/api/shop/marketplace/products/list
+https://skycoach.gg/api/shop/marketplace/offers/my
+```
 
-For detailed route descriptions, see the API Reference at [https://123-f571222f.mintlify.app/api-reference/](https://123-f571222f.mintlify.app/api-reference/), or jump directly to the [token instructions](get-api-token).
+## Quick Start
+
+Follow these steps to get started with the SkyCoach Marketplace API:
+
+1. **[Get your API token](./get-api-token)** — Generate and securely store your Bearer token
+2. **[Authenticate your requests](#authentication)** — Set up Bearer token authentication
+3. **[Make your first API call](#core-endpoints)** — Explore our core endpoints
+4. **[Handle rate limits](#rate-limiting)** — Implement best practices for rate limit management
+
+## Core Endpoints
+
+The SkyCoach Marketplace API provides comprehensive endpoints for managing your marketplace operations:
+
+- **Products**: Retrieve available products for creating offers
+- **Offers**: Create, update, and manage your marketplace offers
+- **Credentials**: Handle login credentials for your offers
+- **Status Management**: Monitor and control offer statuses
+
+For detailed endpoint documentation, see the [API Reference](https://123-f571222f.mintlify.app/api-reference/).
+
+## Authentication
+
+All API requests require authentication using Bearer tokens. Learn how to generate and manage your API tokens in our [authentication guide](./get-api-token).
+
+**Example:**
+
+```bash
+curl -H "Authorization: Bearer YOUR_API_TOKEN" \
+     https://skycoach.gg/api/shop/marketplace/products/list
+```
+
+## API Responses
+
+The SkyCoach Marketplace API uses consistent JSON response formats across all endpoints. Responses include:
+
+- **Success indicators**: Clear success/failure status
+- **Structured data**: Consistent data format for easy parsing
+- **Error details**: Comprehensive error messages with context
+- **Timestamps**: ISO 8601 formatted timestamps
+
+See the [API Overview](./marketplace-api-overview.md) for detailed response format documentation.
+
+## Rate Limiting
+
+All API requests are subject to rate limiting to ensure service stability and fair usage:
+
+- **Global Limit**: 120 requests per minute
+- **Shared Across Endpoints**: All marketplace endpoints share the same rate limit pool
+- **Burst Capacity**: Up to 10 requests in the first second
+- **Reset Window**: Rolling 60-second window
+
+Rate limit information is included in response headers (`X-RateLimit-*`). See our [Rate Limiting Guide](./marketplace-api-overview.md#rate-limiting) for best practices on handling rate limits effectively, including exponential backoff strategies.
+
+## Getting Support
+
+We're here to help you succeed with the SkyCoach Marketplace API. Here's how to get assistance:
+
+### Documentation and Resources
+
+- **API Reference**: Complete endpoint documentation with examples at [https://api.skycoach.gg/docs/api-reference/](API Reference)
+- **Token Guide**: Step-by-step instructions for [getting your API token](./get-api-token)
+- **API Overview**: Comprehensive guide covering [authentication, responses, and best practices](./marketplace-api-overview.md)
+
+### Support Channels
+
+- **Technical Support**: Email us at `api-support@skycoach.gg`
+- **Status Page**: Monitor API status at `https://status.skycoach.gg`
+- **Developer Community**: Join our Discord community for discussions and updates
+
+## Next Steps
+
+Ready to start building? Follow these steps:
+
+1. **Get your API key**  
+   Visit your dashboard to generate your API token. See the [token guide](./get-api-token) for detailed instructions.
+
+2. **Authenticate your requests**  
+   Follow our [Authentication Guide](./get-api-token) to set up Bearer token authentication in your application.
+
+3. **Make your first API call**  
+   Explore our [API Reference](https://api.skycoach.gg/docs/api-reference/) to start building your integration.
+
+4. **Implement best practices**  
+   Review our [API Overview](./marketplace-api-overview.md) for rate limiting strategies, error handling, and security guidelines.
+
+---
+
+**Ready to integrate?** Start with [getting your API token](./get-api-token) and make your first request to the SkyCoach Marketplace API.
+
