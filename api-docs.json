@@ -610,18 +610,8 @@
                     "Offers"
                 ],
                 "summary": "Show my offers",
-                "description": "Get list of offers created by the authenticated user. To get a specific offer, pass the 'id' parameter with the offer ID.",
                 "operationId": "e20e766243d84c6801f7ef3b00a70b78",
                 "parameters": [
-                    {
-                        "name": "with_id",
-                        "in": "query",
-                        "description": "ID of a specific offer to retrieve. For getting a specific offer, pass the offer ID in this parameter. Optional parameter, not passed by default.",
-                        "required": false,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
                     {
                         "name": "offset",
                         "in": "query",
@@ -885,6 +875,225 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Forbidden"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/shop/marketplace/offers/{OfferId}": {
+            "get": {
+                "tags": [
+                    "Offers"
+                ],
+                "summary": "Show offer",
+                "operationId": "4c5b12a434b4028d26f7b2fe567368de",
+                "parameters": [
+                    {
+                        "name": "OfferId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "result": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 123
+                                                },
+                                                "product_currency_setting_id": {
+                                                    "type": "integer",
+                                                    "example": 14
+                                                },
+                                                "user_id": {
+                                                    "type": "integer",
+                                                    "example": 456
+                                                },
+                                                "price_per_step": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 100.5
+                                                },
+                                                "amount": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 1000
+                                                },
+                                                "min_purchase_amount": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 100
+                                                },
+                                                "status": {
+                                                    "$ref": "#/components/schemas/OfferStatus"
+                                                },
+                                                "marketplace_type": {
+                                                    "type": "integer",
+                                                    "enum": [
+                                                        1,
+                                                        2
+                                                    ],
+                                                    "example": 1
+                                                },
+                                                "guarantee_delivery_time": {
+                                                    "type": "string",
+                                                    "example": "24 hours"
+                                                },
+                                                "credential_system_type_id": {
+                                                    "type": "integer",
+                                                    "example": 2,
+                                                    "nullable": true
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "High quality account",
+                                                    "nullable": true
+                                                },
+                                                "outer_name": {
+                                                    "type": "string",
+                                                    "example": "Premium Account",
+                                                    "nullable": true
+                                                },
+                                                "internal_name": {
+                                                    "type": "string",
+                                                    "example": "Internal Name",
+                                                    "nullable": true
+                                                },
+                                                "comment_for_reviewer": {
+                                                    "type": "string",
+                                                    "example": "Please review",
+                                                    "nullable": true
+                                                },
+                                                "image": {
+                                                    "type": "string",
+                                                    "example": "storage/uploads/image.jpg",
+                                                    "nullable": true
+                                                },
+                                                "is_enabled": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                },
+                                                "is_auto_activate_status": {
+                                                    "type": "boolean",
+                                                    "example": false
+                                                },
+                                                "data": {
+                                                    "description": "Offer data object with field IDs as keys",
+                                                    "type": "object",
+                                                    "example": {
+                                                        "1": "5",
+                                                        "2": "Horde"
+                                                    }
+                                                },
+                                                "screenshots": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "storage/uploads/product_currency_offer/screenshot/example.jpg"
+                                                    },
+                                                    "nullable": true
+                                                },
+                                                "original_import_price": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 90,
+                                                    "nullable": true
+                                                },
+                                                "commission_percent": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 15,
+                                                    "nullable": true
+                                                },
+                                                "import_status": {
+                                                    "type": "integer",
+                                                    "example": 1,
+                                                    "nullable": true
+                                                },
+                                                "purchased_amount": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 500,
+                                                    "nullable": true
+                                                },
+                                                "last_review_comment": {
+                                                    "type": "string",
+                                                    "example": "Need more details",
+                                                    "nullable": true
+                                                },
+                                                "credentials_recorded": {
+                                                    "type": "boolean",
+                                                    "example": true,
+                                                    "nullable": true
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-01T00:00:00Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-01T00:00:00Z"
+                                                },
+                                                "deleted_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not found"
                                         }
                                     },
                                     "type": "object"
@@ -2231,18 +2440,6 @@
         }
     },
     "components": {
-      "parameters": {
-    "AcceptHeader": {
-      "name": "Accept",
-      "in": "header",
-      "required": true,
-      "schema": {
-        "type": "string",
-        "default": "application/json"
-      },
-      "description": "Required header"
-    }
-  },
         "schemas": {
             "OfferStatus": {
                 "description": "Offer status enum.\n     *\n     **Possible values:**\n     *\n     * - **1** (Draft): Offer is saved as draft and not visible to others\n     * - **2** (Active): Offer is active and visible to customers\n     * - **3** (Not Active): Offer is not active and not visible to customers\n     * - **4** (Need Details): Offer has not passed the review and needs additional details\n     * - **5** (On Review): Offer is under review\n     * - **6** (Sold): There is an order for this offer\n     * - **7** (Transfered): The order for this offer has been completed\n     * - **8** (Review Passed): Offer has passed the review and waiting for activation",
@@ -2859,6 +3056,21 @@
                     }
                 },
                 "type": "object"
+            }
+        },
+        "parameters": {
+            "Accept": {
+                "name": "Accept",
+                "in": "header",
+                "description": "API response format",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "default": "application/json",
+                    "enum": [
+                        "application/json"
+                    ]
+                }
             }
         },
         "securitySchemes": {
