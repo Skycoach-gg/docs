@@ -21,6 +21,19 @@
                 "operationId": "2d843287aa424cc0fc007ba3610d7e8b",
                 "parameters": [
                     {
+                        "name": "Accept",
+                        "in": "header",
+                        "description": "API response format",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json",
+                            "enum": [
+                                "application/json"
+                            ]
+                        }
+                    },
+                    {
                         "name": "offset",
                         "in": "query",
                         "description": "Number of records to skip. Default: 0",
@@ -338,20 +351,26 @@
                 "operationId": "3579b9e9417bf198de842f05555b602f",
                 "parameters": [
                     {
-                        "name": "productId",
-                        "in": "path",
+                        "name": "Accept",
+                        "in": "header",
+                        "description": "API response format",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "example": 14
+                            "type": "string",
+                            "default": "application/json",
+                            "enum": [
+                                "application/json"
+                            ]
                         }
                     },
                     {
-                        "name": "with_deletes",
-                        "in": "query",
+                        "name": "productId",
+                        "in": "path",
+                        "description": "Product ID",
+                        "required": true,
                         "schema": {
-                            "type": "boolean",
-                            "example": false
+                            "type": "integer",
+                            "example": 123
                         }
                     }
                 ],
@@ -612,6 +631,19 @@
                 "summary": "Show my offers",
                 "operationId": "e20e766243d84c6801f7ef3b00a70b78",
                 "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "description": "API response format",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json",
+                            "enum": [
+                                "application/json"
+                            ]
+                        }
+                    },
                     {
                         "name": "offset",
                         "in": "query",
@@ -899,6 +931,19 @@
                 "operationId": "4c5b12a434b4028d26f7b2fe567368de",
                 "parameters": [
                     {
+                        "name": "Accept",
+                        "in": "header",
+                        "description": "API response format",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json",
+                            "enum": [
+                                "application/json"
+                            ]
+                        }
+                    },
+                    {
                         "name": "OfferId",
                         "in": "path",
                         "required": true,
@@ -1118,6 +1163,19 @@
                 "operationId": "601b48df1e8abde27fc2634e3b53b9fa",
                 "parameters": [
                     {
+                        "name": "Accept",
+                        "in": "header",
+                        "description": "API response format",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json",
+                            "enum": [
+                                "application/json"
+                            ]
+                        }
+                    },
+                    {
                         "name": "OfferId",
                         "in": "path",
                         "required": true,
@@ -1208,6 +1266,19 @@
                 "description": "Create or edit offers with full field validation including custom data fields. Status is automatically determined based on validation results and account capabilities. Status field is prohibited in request - it will be set automatically.\n\n**Automatic status determination:**\n- **Gold marketplace**: Always set to Active if validation passes\n- **Account marketplace**:\n  - If data field validation fails → Need Details\n  - If MULTIPLE credential system and no active credentials → Not Active\n  - If all validations pass → On Review (for moderation)\n\n**Operation type (add/edit):**\n- Operation type is determined automatically by presence of 'id' field in offer object\n- If 'id' is present → edit operation (only provided fields will be updated)\n- If 'id' is missing → add operation (all required fields must be provided)\n\nEdit existing offers or create new ones. Each offer is validated and processed separately. Results are returned as an array with status for each offer.",
                 "operationId": "3316a7b745b5ff157c4c59512ad7f663",
                 "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "description": "API response format",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json",
+                            "enum": [
+                                "application/json"
+                            ]
+                        }
+                    },
                     {
                         "name": "productId",
                         "in": "path",
@@ -1435,6 +1506,19 @@
                 "operationId": "d7072f484ff58f18ea1ab0ec46659492",
                 "parameters": [
                     {
+                        "name": "Accept",
+                        "in": "header",
+                        "description": "API response format",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json",
+                            "enum": [
+                                "application/json"
+                            ]
+                        }
+                    },
+                    {
                         "name": "OfferId",
                         "in": "path",
                         "required": true,
@@ -1512,6 +1596,21 @@
                 ],
                 "summary": "Attach screenshot",
                 "operationId": "5b88fdea7cb4428fb9104b272b7b16d2",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "description": "API response format",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json",
+                            "enum": [
+                                "application/json"
+                            ]
+                        }
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -1609,6 +1708,19 @@
                 "description": "Available only for offers with credential_system_type_id = 2 (Single) or 3 (Multiple).\n     *\n     **Credential system types:**\n     *\n     * - **1** (No Credentials): No credentials system - manual delivery via chat\n     * - **2** (Single): Single credential system - max 1 credential, goes to SOLD when purchased\n     * - **3** (Multiple): Multiple credentials system - 1+ credentials, goes to NOT_ACTIVE when sold out",
                 "operationId": "95103829519d7741423f2c5085891ff7",
                 "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "description": "API response format",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json",
+                            "enum": [
+                                "application/json"
+                            ]
+                        }
+                    },
                     {
                         "name": "offerId",
                         "in": "path",
@@ -1791,6 +1903,19 @@
                 "operationId": "d11bebea11d9d526b3136b0ab04f6f02",
                 "parameters": [
                     {
+                        "name": "Accept",
+                        "in": "header",
+                        "description": "API response format",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json",
+                            "enum": [
+                                "application/json"
+                            ]
+                        }
+                    },
+                    {
                         "name": "offerId",
                         "in": "path",
                         "required": true,
@@ -1932,6 +2057,19 @@
                 "operationId": "8b2caa7925b5156dc882335ccfcb2b6f",
                 "parameters": [
                     {
+                        "name": "Accept",
+                        "in": "header",
+                        "description": "API response format",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json",
+                            "enum": [
+                                "application/json"
+                            ]
+                        }
+                    },
+                    {
                         "name": "offerId",
                         "in": "path",
                         "required": true,
@@ -2070,6 +2208,19 @@
                 "description": "Available only for offers with credential_system_type_id = 2 (Single) or 3 (Multiple).\n     *\n     **Credential system types:**\n     *\n     * - **1** (No Credentials): No credentials system - manual delivery via chat\n     * - **2** (Single): Single credential system - max 1 credential, goes to SOLD when purchased\n     * - **3** (Multiple): Multiple credentials system - 1+ credentials, goes to NOT_ACTIVE when sold out",
                 "operationId": "b64831d806972f98fa011143f8eb290f",
                 "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "description": "API response format",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json",
+                            "enum": [
+                                "application/json"
+                            ]
+                        }
+                    },
                     {
                         "name": "offerId",
                         "in": "path",
@@ -2215,6 +2366,19 @@
                 "operationId": "b8c27c5594e84c75fd65d676ba3f64eb",
                 "parameters": [
                     {
+                        "name": "Accept",
+                        "in": "header",
+                        "description": "API response format",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json",
+                            "enum": [
+                                "application/json"
+                            ]
+                        }
+                    },
+                    {
                         "name": "offerId",
                         "in": "path",
                         "required": true,
@@ -2302,6 +2466,19 @@
                 "description": "Available only for offers with credential_system_type_id = 2 (Single) or 3 (Multiple).\n     *\n     **Credential system types:**\n     *\n     * - **1** (No Credentials): No credentials system - manual delivery via chat\n     * - **2** (Single): Single credential system - max 1 credential, goes to SOLD when purchased\n     * - **3** (Multiple): Multiple credentials system - 1+ credentials, goes to NOT_ACTIVE when sold out",
                 "operationId": "bd8241b3ed9529d9e794c20338031fec",
                 "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "description": "API response format",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json",
+                            "enum": [
+                                "application/json"
+                            ]
+                        }
+                    },
                     {
                         "name": "offerId",
                         "in": "path",
