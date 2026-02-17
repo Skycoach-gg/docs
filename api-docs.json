@@ -11,6 +11,19 @@
             "description": "API Server"
         }
     ],
+      "components": {
+    "parameters": {
+      "AcceptHeader": {
+        "name": "Accept",
+        "in": "header",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "default": "application/json"
+        }
+      }
+    }
+  },
     "paths": {
         "/api/shop/marketplace/products/list": {
             "get": {
