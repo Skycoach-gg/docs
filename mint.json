@@ -1,51 +1,3052 @@
 {
-  "$schema": "https://mintlify.com/schema.json",
-  "name": "SkyCoach API Documentation",
-
-  "logo": "https://skycoach.gg/images/logos/rebranded/logo.svg",
-
-  "favicon": "https://skycoach.gg/images/favicon/rebranded/1__192x192.png",
-
-  "colors": {
-    "primary": "#07C983"
-  },
-
-  "background": {
-    "dark": "#020617"
-  },
-
-  "modeToggle": {
-    "default": "dark",
-    "isHidden": true
-  },
-
-  "topbarLinks": [
-    {
-      "name": "Support",
-      "url": "mailto:support@skycoach.com"
-    }
-  ],
-
-  "topbarCtaButton": {
-    "name": "Dashboard",
-    "url": "https://skycoach.com"
-  },
-
-  "navigation": [
-    {
-      "group": "Getting Started",
-      "pages": [
-        "introduction",
-        "get-api-token"
-      ]
-    }
-  ],
-
-  "tabs": [
-    {
-      "name": "API Reference",
-      "url": "api-reference",
-      "openapi": "/api-docs.json"
-    }
-  ]
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Currency Marketplace API",
+        "description": "API documentation for Currency Marketplace",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://skycoach.gg/",
+            "description": "API Server"
+        }
+    ],
+    "paths": {
+        "/api/shop/marketplace/products/list": {
+            "get": {
+                "tags": [
+                    "Currency Marketplace"
+                ],
+                "summary": "Get product list",
+                "operationId": "2d843287aa424cc0fc007ba3610d7e8b",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "description": "API response format",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json",
+                            "enum": [
+                                "application/json"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "Number of records to skip. Default: 0",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0,
+                            "example": 0
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Maximum number of records to return. Default: 25, Max: 25",
+                        "schema": {
+                            "type": "integer",
+                            "default": 25,
+                            "maximum": 25,
+                            "example": 20
+                        }
+                    },
+                    {
+                        "name": "sort_column",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "example": "id"
+                        }
+                    },
+                    {
+                        "name": "sort_direction",
+                        "in": "query",
+                        "description": "Sort direction.\n     *\n     **Possible values:**\n     *\n     * - **asc**: Ascending order (from lowest to highest)\n     * - **desc**: Descending order (from highest to lowest)",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "asc",
+                                "desc"
+                            ],
+                            "example": "asc"
+                        }
+                    },
+                    {
+                        "name": "with_marketplace_type",
+                        "in": "query",
+                        "description": "Filter by marketplace type.\n     *\n     **Possible values:**\n     *\n     * - **1**: Gold marketplace\n     * - **2**: Account marketplace",
+                        "schema": {
+                            "type": "integer",
+                            "enum": [
+                                1,
+                                2
+                            ],
+                            "example": 2
+                        }
+                    },
+                    {
+                        "name": "with_is_active",
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean",
+                            "example": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success. Returns array of products matching PublicProductCurrencySettingResource.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "result": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 61
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "Marvel Rivals Accounts"
+                                                    },
+                                                    "step_size": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "meta": {
+                                                        "type": "object",
+                                                        "example": null,
+                                                        "nullable": true
+                                                    },
+                                                    "is_active": {
+                                                        "type": "boolean",
+                                                        "example": true
+                                                    },
+                                                    "is_active_for_pro": {
+                                                        "type": "boolean",
+                                                        "example": true
+                                                    },
+                                                    "marketplace_type": {
+                                                        "type": "integer",
+                                                        "enum": [
+                                                            1,
+                                                            2
+                                                        ],
+                                                        "example": 2
+                                                    },
+                                                    "related_product_currency_settings": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "object"
+                                                        }
+                                                    },
+                                                    "product_currency_setting_fields": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "id": {
+                                                                    "type": "integer",
+                                                                    "example": 198
+                                                                },
+                                                                "parent_id": {
+                                                                    "type": "integer",
+                                                                    "example": null,
+                                                                    "nullable": true
+                                                                },
+                                                                "product_currency_setting_id": {
+                                                                    "type": "integer",
+                                                                    "example": 61
+                                                                },
+                                                                "is_inline": {
+                                                                    "type": "boolean",
+                                                                    "example": false
+                                                                },
+                                                                "is_filter": {
+                                                                    "type": "boolean",
+                                                                    "example": false
+                                                                },
+                                                                "is_required": {
+                                                                    "type": "boolean",
+                                                                    "example": true
+                                                                },
+                                                                "title": {
+                                                                    "type": "string",
+                                                                    "example": "Platform"
+                                                                },
+                                                                "placeholder": {
+                                                                    "type": "string",
+                                                                    "example": "Platform",
+                                                                    "nullable": true
+                                                                },
+                                                                "component_view": {
+                                                                    "type": "integer",
+                                                                    "example": 5
+                                                                },
+                                                                "priority": {
+                                                                    "type": "integer",
+                                                                    "example": 2
+                                                                },
+                                                                "deleted_at": {
+                                                                    "type": "string",
+                                                                    "format": "date-time",
+                                                                    "example": null,
+                                                                    "nullable": true
+                                                                },
+                                                                "parent_value_id": {
+                                                                    "type": "integer",
+                                                                    "example": null,
+                                                                    "nullable": true
+                                                                },
+                                                                "default_value_id": {
+                                                                    "type": "integer",
+                                                                    "example": null,
+                                                                    "nullable": true
+                                                                },
+                                                                "is_primary": {
+                                                                    "type": "boolean",
+                                                                    "example": true
+                                                                },
+                                                                "component_edit": {
+                                                                    "type": "integer",
+                                                                    "example": 2
+                                                                },
+                                                                "has_custom_value": {
+                                                                    "type": "boolean",
+                                                                    "example": false
+                                                                },
+                                                                "has_values_counter": {
+                                                                    "type": "boolean",
+                                                                    "example": false
+                                                                },
+                                                                "component_view_data": {
+                                                                    "type": "object",
+                                                                    "nullable": true
+                                                                },
+                                                                "component_edit_data": {
+                                                                    "type": "object",
+                                                                    "nullable": true
+                                                                },
+                                                                "is_hidden": {
+                                                                    "type": "boolean",
+                                                                    "example": false
+                                                                },
+                                                                "ranking_weight": {
+                                                                    "type": "integer",
+                                                                    "example": 0
+                                                                },
+                                                                "is_show_in_tags": {
+                                                                    "type": "boolean",
+                                                                    "example": false
+                                                                },
+                                                                "title_for_primary": {
+                                                                    "type": "string",
+                                                                    "example": null,
+                                                                    "nullable": true
+                                                                },
+                                                                "title_for_tags": {
+                                                                    "type": "string",
+                                                                    "example": null,
+                                                                    "nullable": true
+                                                                },
+                                                                "is_sort_values_by_priority": {
+                                                                    "type": "boolean",
+                                                                    "example": false
+                                                                },
+                                                                "product_currency_setting_field_values": {
+                                                                    "type": "array",
+                                                                    "items": {
+                                                                        "properties": {
+                                                                            "id": {
+                                                                                "type": "integer",
+                                                                                "example": 1
+                                                                            },
+                                                                            "product_currency_setting_field_id": {
+                                                                                "type": "integer",
+                                                                                "example": 198
+                                                                            },
+                                                                            "value": {
+                                                                                "type": "string",
+                                                                                "example": "PC"
+                                                                            },
+                                                                            "priority": {
+                                                                                "type": "integer",
+                                                                                "example": 1
+                                                                            },
+                                                                            "deleted_at": {
+                                                                                "type": "string",
+                                                                                "format": "date-time",
+                                                                                "example": null,
+                                                                                "nullable": true
+                                                                            },
+                                                                            "additional_value": {
+                                                                                "type": "string",
+                                                                                "example": null,
+                                                                                "nullable": true
+                                                                            }
+                                                                        },
+                                                                        "type": "object"
+                                                                    }
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "total": {
+                                            "type": "integer",
+                                            "example": 13
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "Unauthenticated."
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "Forbidden."
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/shop/marketplace/products/{productId}": {
+            "get": {
+                "tags": [
+                    "Currency Marketplace"
+                ],
+                "summary": "Get product by ID",
+                "operationId": "3579b9e9417bf198de842f05555b602f",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "description": "API response format",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json",
+                            "enum": [
+                                "application/json"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "productId",
+                        "in": "path",
+                        "description": "Product ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 123
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success. Returns single product matching PublicProductCurrencySettingResource.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "result": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 61
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "example": "Marvel Rivals Accounts"
+                                                },
+                                                "step_size": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "meta": {
+                                                    "type": "object",
+                                                    "example": null,
+                                                    "nullable": true
+                                                },
+                                                "is_active": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                },
+                                                "is_active_for_pro": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                },
+                                                "marketplace_type": {
+                                                    "type": "integer",
+                                                    "enum": [
+                                                        1,
+                                                        2
+                                                    ],
+                                                    "example": 2
+                                                },
+                                                "related_product_currency_settings": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "product_currency_setting_fields": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 198
+                                                            },
+                                                            "parent_id": {
+                                                                "type": "integer",
+                                                                "example": null,
+                                                                "nullable": true
+                                                            },
+                                                            "product_currency_setting_id": {
+                                                                "type": "integer",
+                                                                "example": 61
+                                                            },
+                                                            "is_inline": {
+                                                                "type": "boolean",
+                                                                "example": false
+                                                            },
+                                                            "is_filter": {
+                                                                "type": "boolean",
+                                                                "example": false
+                                                            },
+                                                            "is_required": {
+                                                                "type": "boolean",
+                                                                "example": true
+                                                            },
+                                                            "title": {
+                                                                "type": "string",
+                                                                "example": "Platform"
+                                                            },
+                                                            "placeholder": {
+                                                                "type": "string",
+                                                                "example": "Platform",
+                                                                "nullable": true
+                                                            },
+                                                            "component_view": {
+                                                                "type": "integer",
+                                                                "example": 5
+                                                            },
+                                                            "priority": {
+                                                                "type": "integer",
+                                                                "example": 2
+                                                            },
+                                                            "deleted_at": {
+                                                                "type": "string",
+                                                                "format": "date-time",
+                                                                "example": null,
+                                                                "nullable": true
+                                                            },
+                                                            "parent_value_id": {
+                                                                "type": "integer",
+                                                                "example": null,
+                                                                "nullable": true
+                                                            },
+                                                            "default_value_id": {
+                                                                "type": "integer",
+                                                                "example": null,
+                                                                "nullable": true
+                                                            },
+                                                            "is_primary": {
+                                                                "type": "boolean",
+                                                                "example": true
+                                                            },
+                                                            "component_edit": {
+                                                                "type": "integer",
+                                                                "example": 2
+                                                            },
+                                                            "has_custom_value": {
+                                                                "type": "boolean",
+                                                                "example": false
+                                                            },
+                                                            "has_values_counter": {
+                                                                "type": "boolean",
+                                                                "example": false
+                                                            },
+                                                            "component_view_data": {
+                                                                "type": "object",
+                                                                "nullable": true
+                                                            },
+                                                            "component_edit_data": {
+                                                                "type": "object",
+                                                                "nullable": true
+                                                            },
+                                                            "is_hidden": {
+                                                                "type": "boolean",
+                                                                "example": false
+                                                            },
+                                                            "ranking_weight": {
+                                                                "type": "integer",
+                                                                "example": 0
+                                                            },
+                                                            "is_show_in_tags": {
+                                                                "type": "boolean",
+                                                                "example": false
+                                                            },
+                                                            "title_for_primary": {
+                                                                "type": "string",
+                                                                "example": null,
+                                                                "nullable": true
+                                                            },
+                                                            "title_for_tags": {
+                                                                "type": "string",
+                                                                "example": null,
+                                                                "nullable": true
+                                                            },
+                                                            "is_sort_values_by_priority": {
+                                                                "type": "boolean",
+                                                                "example": false
+                                                            },
+                                                            "product_currency_setting_field_values": {
+                                                                "type": "array",
+                                                                "items": {
+                                                                    "properties": {
+                                                                        "id": {
+                                                                            "type": "integer",
+                                                                            "example": 1
+                                                                        },
+                                                                        "product_currency_setting_field_id": {
+                                                                            "type": "integer",
+                                                                            "example": 198
+                                                                        },
+                                                                        "value": {
+                                                                            "type": "string",
+                                                                            "example": "PC"
+                                                                        },
+                                                                        "priority": {
+                                                                            "type": "integer",
+                                                                            "example": 1
+                                                                        },
+                                                                        "deleted_at": {
+                                                                            "type": "string",
+                                                                            "format": "date-time",
+                                                                            "example": null,
+                                                                            "nullable": true
+                                                                        },
+                                                                        "additional_value": {
+                                                                            "type": "string",
+                                                                            "example": null,
+                                                                            "nullable": true
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                }
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "Unauthenticated."
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "Forbidden."
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Product setting not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "Not found"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/shop/marketplace/offers/my": {
+            "get": {
+                "tags": [
+                    "Offers"
+                ],
+                "summary": "Show my offers",
+                "description": "Get list of offers created by the authenticated user. To get a specific offer, pass the 'id' parameter with the offer ID.",
+                "operationId": "e20e766243d84c6801f7ef3b00a70b78",
+                "parameters": [
+                    {
+                        "name": "with_id",
+                        "in": "query",
+                        "description": "ID of a specific offer to retrieve. For getting a specific offer, pass the offer ID in this parameter. Optional parameter, not passed by default.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "description": "API response format",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json",
+                            "enum": [
+                                "application/json"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "example": 0
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "example": 20
+                        }
+                    },
+                    {
+                        "name": "sort_column",
+                        "in": "query",
+                        "description": "Column to sort by.\n     *\n     **Possible values:**\n     *\n     * - **price_per_step**: Sort by price per step\n     * - **guarantee_delivery_time**: Sort by guarantee delivery time\n     * - **status**: Sort by offer status\n     * - **created_at**: Sort by creation date\n     * - **updated_at**: Sort by last update date",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "price_per_step",
+                                "guarantee_delivery_time",
+                                "status",
+                                "created_at",
+                                "updated_at"
+                            ],
+                            "example": "price_per_step"
+                        }
+                    },
+                    {
+                        "name": "sort_direction",
+                        "in": "query",
+                        "description": "Sort direction.\n     *\n     **Possible values:**\n     *\n     * - **asc**: Ascending order (from lowest to highest)\n     * - **desc**: Descending order (from highest to lowest)",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "asc",
+                                "desc"
+                            ],
+                            "example": "asc"
+                        }
+                    },
+                    {
+                        "name": "with_status",
+                        "in": "query",
+                        "description": "Filter by offer status.\n     *\n     **Possible values:**\n     *\n     * - **1** (Draft): Offer is saved as draft and not visible to others\n     * - **2** (Active): Offer is active and visible to customers\n     * - **3** (Not Active): Offer is not active and not visible to customers\n     * - **4** (Need Details): Offer has not passed the review and needs additional details\n     * - **5** (On Review): Offer is under review\n     * - **6** (Sold): There is an order for this offer\n     * - **7** (Transfered): The order for this offer has been completed\n     * - **8** (Review Passed): Offer has passed the review and waiting for activation",
+                        "schema": {
+                            "type": "integer",
+                            "enum": [
+                                1,
+                                2,
+                                3,
+                                4,
+                                5,
+                                6,
+                                7,
+                                8
+                            ],
+                            "example": 3
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "result": {
+                                            "description": "Array of offers",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 123
+                                                    },
+                                                    "product_currency_setting_id": {
+                                                        "type": "integer",
+                                                        "example": 14
+                                                    },
+                                                    "user_id": {
+                                                        "type": "integer",
+                                                        "example": 456
+                                                    },
+                                                    "price_per_step": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": 100.5
+                                                    },
+                                                    "amount": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": 1000
+                                                    },
+                                                    "min_purchase_amount": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": 100
+                                                    },
+                                                    "status": {
+                                                        "$ref": "#/components/schemas/OfferStatus"
+                                                    },
+                                                    "marketplace_type": {
+                                                        "type": "integer",
+                                                        "enum": [
+                                                            1,
+                                                            2
+                                                        ],
+                                                        "example": 1
+                                                    },
+                                                    "guarantee_delivery_time": {
+                                                        "type": "string",
+                                                        "example": "24 hours"
+                                                    },
+                                                    "credential_system_type_id": {
+                                                        "type": "integer",
+                                                        "example": 2,
+                                                        "nullable": true
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "High quality account",
+                                                        "nullable": true
+                                                    },
+                                                    "outer_name": {
+                                                        "type": "string",
+                                                        "example": "Premium Account",
+                                                        "nullable": true
+                                                    },
+                                                    "internal_name": {
+                                                        "type": "string",
+                                                        "example": "Internal Name",
+                                                        "nullable": true
+                                                    },
+                                                    "comment_for_reviewer": {
+                                                        "type": "string",
+                                                        "example": "Please review",
+                                                        "nullable": true
+                                                    },
+                                                    "image": {
+                                                        "type": "string",
+                                                        "example": "storage/uploads/image.jpg",
+                                                        "nullable": true
+                                                    },
+                                                    "is_enabled": {
+                                                        "type": "boolean",
+                                                        "example": true
+                                                    },
+                                                    "is_auto_activate_status": {
+                                                        "type": "boolean",
+                                                        "example": false
+                                                    },
+                                                    "data": {
+                                                        "description": "Offer data object with field IDs as keys",
+                                                        "type": "object",
+                                                        "example": {
+                                                            "1": "5",
+                                                            "2": "Horde",
+                                                            "3": "Custom server name"
+                                                        }
+                                                    },
+                                                    "screenshots": {
+                                                        "description": "Array of screenshot URLs",
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string",
+                                                            "example": "storage/uploads/product_currency_offer/screenshot/example.jpg"
+                                                        },
+                                                        "nullable": true
+                                                    },
+                                                    "original_import_price": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": 90,
+                                                        "nullable": true
+                                                    },
+                                                    "commission_percent": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": 15,
+                                                        "nullable": true
+                                                    },
+                                                    "import_status": {
+                                                        "type": "integer",
+                                                        "example": 1,
+                                                        "nullable": true
+                                                    },
+                                                    "purchased_amount": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": 500,
+                                                        "nullable": true
+                                                    },
+                                                    "last_review_comment": {
+                                                        "type": "string",
+                                                        "example": "Need more details",
+                                                        "nullable": true
+                                                    },
+                                                    "credentials_recorded": {
+                                                        "type": "boolean",
+                                                        "example": true,
+                                                        "nullable": true
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-01-01T00:00:00Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-01-01T00:00:00Z"
+                                                    },
+                                                    "deleted_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "nullable": true
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "total": {
+                                            "description": "Total number of offers",
+                                            "type": "integer",
+                                            "example": 100
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Forbidden"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/shop/marketplace/offers/{OfferId}/delete": {
+            "delete": {
+                "tags": [
+                    "Offers"
+                ],
+                "summary": "Delete offer",
+                "operationId": "601b48df1e8abde27fc2634e3b53b9fa",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "description": "API response format",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json",
+                            "enum": [
+                                "application/json"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "OfferId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "ok"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Forbidden"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/shop/marketplace/offers/{productId}/manage": {
+            "post": {
+                "tags": [
+                    "Offers"
+                ],
+                "summary": "Manage offer (create or edit with automatic status determination)",
+                "description": "Create or edit offers with full field validation including custom data fields. Status is automatically determined based on validation results and account capabilities. Status field is prohibited in request - it will be set automatically.\n\n**Automatic status determination:**\n- **Gold marketplace**: Always set to Active if validation passes\n- **Account marketplace**:\n  - If data field validation fails → Need Details\n  - If MULTIPLE credential system and no active credentials → Not Active\n  - If all validations pass → On Review (for moderation)\n\n**Operation type (add/edit):**\n- Operation type is determined automatically by presence of 'id' field in offer object\n- If 'id' is present → edit operation (only provided fields will be updated)\n- If 'id' is missing → add operation (all required fields must be provided)\n\nEdit existing offers or create new ones. Each offer is validated and processed separately. Results are returned as an array with status for each offer.",
+                "operationId": "3316a7b745b5ff157c4c59512ad7f663",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "description": "API response format",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json",
+                            "enum": [
+                                "application/json"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "productId",
+                        "in": "path",
+                        "description": "Product currency marketplace ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 13
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ManageOfferRequest"
+                            },
+                            "example": {
+                                "product_currency_offers": [
+                                    {
+                                        "price_per_step": 2,
+                                        "amount": 1,
+                                        "min_purchase_amount": "1",
+                                        "data": {
+                                            "69": [],
+                                            "70": [],
+                                            "71": "Grandmaster",
+                                            "72": "Brazil",
+                                            "73": 7005,
+                                            "74": "Handmade",
+                                            "78": 1,
+                                            "204": 200
+                                        },
+                                        "marketplace_type": 2,
+                                        "is_auto_activate_status": true,
+                                        "outer_name": "LoL Account with Rare Skins",
+                                        "internal_name": "LoL_Account_001",
+                                        "description": "Account with Officer Vi and Pharaoh Amumu skins",
+                                        "credential_system_type_id": 1,
+                                        "search_description": "LoL account with rare skins"
+                                    },
+                                    {
+                                        "id": 336372,
+                                        "price_per_step": 2,
+                                        "amount": 1,
+                                        "min_purchase_amount": "1",
+                                        "data": {
+                                            "69": [],
+                                            "70": [],
+                                            "71": "Grandmaster",
+                                            "72": "Brazil",
+                                            "73": 7005,
+                                            "74": "Handmade",
+                                            "78": 1,
+                                            "204": 200
+                                        },
+                                        "marketplace_type": 2,
+                                        "is_auto_activate_status": true,
+                                        "outer_name": "LoL Account with Rare Skins",
+                                        "internal_name": "LoL_Account_001",
+                                        "description": "Account with Officer Vi and Pharaoh Amumu skins",
+                                        "credential_system_type_id": 1,
+                                        "search_description": "LoL account with rare skins"
+                                    }
+                                ],
+                                "guarantee_delivery_time": "1-2 hours"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "result": {
+                                            "properties": {
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "ok"
+                                                },
+                                                "received": {
+                                                    "description": "Total number of offers received in request",
+                                                    "type": "integer",
+                                                    "example": 3
+                                                },
+                                                "successfully": {
+                                                    "description": "Number of offers successfully processed",
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "results": {
+                                                    "description": "Array of results for each offer",
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 335838,
+                                                                "nullable": true
+                                                            },
+                                                            "status": {
+                                                                "type": "string",
+                                                                "example": "ok"
+                                                            },
+                                                            "message": {
+                                                                "type": "string",
+                                                                "example": "Failed to process offer",
+                                                                "nullable": true
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation error. (and 3 more errors)"
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "product_currency_offers.0.price_per_step": [
+                                                    "The product_currency_offers.0.price_per_step field must be a number."
+                                                ],
+                                                "product_currency_offers.0.data.71": [
+                                                    {
+                                                        "error": "Invalid value for field: Rank",
+                                                        "type": "string",
+                                                        "allowed_values": [
+                                                            "Challenger",
+                                                            "Grandmaster",
+                                                            "Master",
+                                                            "Diamond",
+                                                            "Silver",
+                                                            "Bronze",
+                                                            "Emerald",
+                                                            "Platinum",
+                                                            "Iron",
+                                                            "Gold"
+                                                        ]
+                                                    }
+                                                ],
+                                                "product_currency_offers.0.data.74": [
+                                                    {
+                                                        "error": "Invalid value for field: Leveling",
+                                                        "type": "string",
+                                                        "allowed_values": [
+                                                            "Handmade",
+                                                            "Automated"
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Forbidden"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/shop/marketplace/offers/{OfferId}/edit_status": {
+            "post": {
+                "tags": [
+                    "Offers"
+                ],
+                "summary": "Edit offer status",
+                "operationId": "d7072f484ff58f18ea1ab0ec46659492",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "description": "API response format",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json",
+                            "enum": [
+                                "application/json"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "OfferId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "status"
+                                ],
+                                "properties": {
+                                    "status": {
+                                        "$ref": "#/components/schemas/OfferStatus"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "ok"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Cannot change offer status"
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/shop/marketplace/offers/attach_screenshot": {
+            "post": {
+                "tags": [
+                    "Offers"
+                ],
+                "summary": "Attach screenshot",
+                "operationId": "5b88fdea7cb4428fb9104b272b7b16d2",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "description": "API response format",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json",
+                            "enum": [
+                                "application/json"
+                            ]
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "file"
+                                ],
+                                "properties": {
+                                    "file": {
+                                        "description": "Screenshot image file. Supported formats: JPEG, PNG, JPG",
+                                        "type": "string",
+                                        "format": "binary",
+                                        "example": "screenshot.jpg"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "uri": {
+                                            "description": "URI path to the uploaded screenshot",
+                                            "type": "string",
+                                            "example": "storage/uploads/product_currency_offer/screenshot/550e8400-e29b-41d4-a716-446655440000.jpg"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "file": {
+                                            "description": "Array of validation errors for file field",
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "example": "The file field is required."
+                                            }
+                                        },
+                                        "error": {
+                                            "description": "General error message",
+                                            "type": "string",
+                                            "example": "The file must be an image."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/shop/marketplace/offers/{offerId}/credentials": {
+            "get": {
+                "tags": [
+                    "Offer Credentials"
+                ],
+                "summary": "Get list of credentials for offer",
+                "description": "Available only for offers with credential_system_type_id = 2 (Single) or 3 (Multiple).\n     *\n     **Credential system types:**\n     *\n     * - **1** (No Credentials): No credentials system - manual delivery via chat\n     * - **2** (Single): Single credential system - max 1 credential, goes to SOLD when purchased\n     * - **3** (Multiple): Multiple credentials system - 1+ credentials, goes to NOT_ACTIVE when sold out",
+                "operationId": "95103829519d7741423f2c5085891ff7",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "description": "API response format",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json",
+                            "enum": [
+                                "application/json"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "offerId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 123
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Filter by credential status.\n     *\n     **Possible values:**\n     *\n     * - **1** (Active): Credential is active and available for sale\n     * - **2** (Sold): Credential was sold",
+                        "schema": {
+                            "type": "integer",
+                            "enum": [
+                                1,
+                                2
+                            ],
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "example": 20
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success. Returns paginated list of credentials.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "current_page": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "login": {
+                                                        "type": "string",
+                                                        "example": "user@example.com"
+                                                    },
+                                                    "game_password": {
+                                                        "type": "string",
+                                                        "example": "SecurePass123"
+                                                    },
+                                                    "email": {
+                                                        "type": "string",
+                                                        "example": "user@example.com"
+                                                    },
+                                                    "email_password": {
+                                                        "type": "string",
+                                                        "example": "EmailPass123"
+                                                    },
+                                                    "is_2fa_active": {
+                                                        "type": "boolean",
+                                                        "example": false
+                                                    },
+                                                    "comment": {
+                                                        "type": "string",
+                                                        "example": "Some comment"
+                                                    },
+                                                    "status": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "last_page": {
+                                            "type": "integer",
+                                            "example": 5
+                                        },
+                                        "per_page": {
+                                            "type": "integer",
+                                            "example": 20
+                                        },
+                                        "total": {
+                                            "type": "integer",
+                                            "example": 100
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Forbidden."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Offer not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "Not found"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Offer Credentials"
+                ],
+                "summary": "Create new credential",
+                "description": "Available only for offers with credential_system_type_id = 2 (Single) or 3 (Multiple).\n     *\n     **Credential system types:**\n     *\n     * - **1** (No Credentials): No credentials system - manual delivery via chat\n     * - **2** (Single): Single credential system - max 1 credential, goes to SOLD when purchased\n     * - **3** (Multiple): Multiple credentials system - 1+ credentials, goes to NOT_ACTIVE when sold out",
+                "operationId": "d11bebea11d9d526b3136b0ab04f6f02",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "description": "API response format",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json",
+                            "enum": [
+                                "application/json"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "offerId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 123
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "login",
+                                    "game_password"
+                                ],
+                                "properties": {
+                                    "login": {
+                                        "type": "string",
+                                        "maxLength": 255,
+                                        "example": "user@example.com"
+                                    },
+                                    "game_password": {
+                                        "type": "string",
+                                        "maxLength": 255,
+                                        "example": "SecurePass123"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "nullable": true
+                                    },
+                                    "email_password": {
+                                        "description": "Required if email is provided",
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "is_2fa_active": {
+                                        "type": "boolean",
+                                        "nullable": true
+                                    },
+                                    "comment": {
+                                        "type": "string",
+                                        "maxLength": 1000,
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "result": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "status": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error"
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Forbidden."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/shop/marketplace/offers/{offerId}/credentials/{credentialId}": {
+            "get": {
+                "tags": [
+                    "Offer Credentials"
+                ],
+                "summary": "Show credential",
+                "description": "Available only for offers with credential_system_type_id = 2 (Single) or 3 (Multiple).\n     *\n     **Credential system types:**\n     *\n     * - **1** (No Credentials): No credentials system - manual delivery via chat\n     * - **2** (Single): Single credential system - max 1 credential, goes to SOLD when purchased\n     * - **3** (Multiple): Multiple credentials system - 1+ credentials, goes to NOT_ACTIVE when sold out",
+                "operationId": "8b2caa7925b5156dc882335ccfcb2b6f",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "description": "API response format",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json",
+                            "enum": [
+                                "application/json"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "offerId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 123
+                        }
+                    },
+                    {
+                        "name": "credentialId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 456
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "result": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "login": {
+                                                    "type": "string",
+                                                    "example": "user@example.com"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "user@example.com"
+                                                },
+                                                "game_password": {
+                                                    "type": "string",
+                                                    "example": "SecurePass123"
+                                                },
+                                                "password": {
+                                                    "type": "string",
+                                                    "example": ""
+                                                },
+                                                "email_password": {
+                                                    "type": "string",
+                                                    "example": "EmailPass123"
+                                                },
+                                                "is_2fa_active": {
+                                                    "type": "boolean",
+                                                    "example": false
+                                                },
+                                                "comment": {
+                                                    "type": "string",
+                                                    "example": "Some comment"
+                                                },
+                                                "status": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Forbidden."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Credential not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "Not found"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Offer Credentials"
+                ],
+                "summary": "Update credential",
+                "description": "Available only for offers with credential_system_type_id = 2 (Single) or 3 (Multiple).\n     *\n     **Credential system types:**\n     *\n     * - **1** (No Credentials): No credentials system - manual delivery via chat\n     * - **2** (Single): Single credential system - max 1 credential, goes to SOLD when purchased\n     * - **3** (Multiple): Multiple credentials system - 1+ credentials, goes to NOT_ACTIVE when sold out",
+                "operationId": "b64831d806972f98fa011143f8eb290f",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "description": "API response format",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json",
+                            "enum": [
+                                "application/json"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "offerId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 123
+                        }
+                    },
+                    {
+                        "name": "credentialId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 456
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "login",
+                                    "game_password"
+                                ],
+                                "properties": {
+                                    "login": {
+                                        "type": "string",
+                                        "maxLength": 255,
+                                        "example": "user@example.com"
+                                    },
+                                    "game_password": {
+                                        "type": "string",
+                                        "maxLength": 255,
+                                        "example": "SecurePass123"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "nullable": true
+                                    },
+                                    "email_password": {
+                                        "description": "Required if email is provided",
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "is_2fa_active": {
+                                        "type": "boolean",
+                                        "nullable": true
+                                    },
+                                    "comment": {
+                                        "type": "string",
+                                        "maxLength": 1000,
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "result": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "status": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error"
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Forbidden."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Offer Credentials"
+                ],
+                "summary": "Delete credential",
+                "description": "Available only for offers with credential_system_type_id = 2 (Single) or 3 (Multiple).\n     *\n     **Credential system types:**\n     *\n     * - **1** (No Credentials): No credentials system - manual delivery via chat\n     * - **2** (Single): Single credential system - max 1 credential, goes to SOLD when purchased\n     * - **3** (Multiple): Multiple credentials system - 1+ credentials, goes to NOT_ACTIVE when sold out",
+                "operationId": "b8c27c5594e84c75fd65d676ba3f64eb",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "description": "API response format",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json",
+                            "enum": [
+                                "application/json"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "offerId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 123
+                        }
+                    },
+                    {
+                        "name": "credentialId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 456
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Credential deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Cannot delete this credential"
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Forbidden."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/shop/marketplace/offers/{offerId}/credentials/batch": {
+            "put": {
+                "tags": [
+                    "Offer Credentials"
+                ],
+                "summary": "Replace all credentials (batch replace)",
+                "description": "Available only for offers with credential_system_type_id = 2 (Single) or 3 (Multiple).\n     *\n     **Credential system types:**\n     *\n     * - **1** (No Credentials): No credentials system - manual delivery via chat\n     * - **2** (Single): Single credential system - max 1 credential, goes to SOLD when purchased\n     * - **3** (Multiple): Multiple credentials system - 1+ credentials, goes to NOT_ACTIVE when sold out",
+                "operationId": "bd8241b3ed9529d9e794c20338031fec",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "description": "API response format",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json",
+                            "enum": [
+                                "application/json"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "offerId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 123
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "credentials"
+                                ],
+                                "properties": {
+                                    "credentials": {
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "login",
+                                                "game_password"
+                                            ],
+                                            "properties": {
+                                                "login": {
+                                                    "type": "string",
+                                                    "maxLength": 255,
+                                                    "example": "user@example.com"
+                                                },
+                                                "game_password": {
+                                                    "type": "string",
+                                                    "maxLength": 255,
+                                                    "example": "SecurePass123"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "format": "email",
+                                                    "nullable": true
+                                                },
+                                                "email_password": {
+                                                    "type": "string",
+                                                    "nullable": true
+                                                },
+                                                "is_2fa_active": {
+                                                    "type": "boolean",
+                                                    "nullable": true
+                                                },
+                                                "comment": {
+                                                    "type": "string",
+                                                    "maxLength": 1000,
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "maxItems": 1000,
+                                        "minItems": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "result": {
+                                            "properties": {
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "Credentials replaced successfully"
+                                                },
+                                                "replaced": {
+                                                    "type": "integer",
+                                                    "example": 5
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error"
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Forbidden."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "OfferStatus": {
+                "description": "Offer status enum.\n     *\n     **Possible values:**\n     *\n     * - **1** (Draft): Offer is saved as draft and not visible to others\n     * - **2** (Active): Offer is active and visible to customers\n     * - **3** (Not Active): Offer is not active and not visible to customers\n     * - **4** (Need Details): Offer has not passed the review and needs additional details\n     * - **5** (On Review): Offer is under review\n     * - **6** (Sold): There is an order for this offer\n     * - **7** (Transfered): The order for this offer has been completed\n     * - **8** (Review Passed): Offer has passed the review and waiting for activation",
+                "type": "integer",
+                "enum": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8
+                ],
+                "example": 3
+            },
+            "CredentialStatus": {
+                "description": "Credential status enum.\n     *\n     **Possible values:**\n     *\n     * - **1** (Active): Credential is active and available for sale\n     * - **2** (Sold): Credential was sold",
+                "type": "integer",
+                "enum": [
+                    1,
+                    2
+                ],
+                "example": 1
+            },
+            "MarketplaceType": {
+                "description": "Marketplace type enum.\n     *\n     **Possible values:**\n     *\n     * - **1**: Gold marketplace\n     * - **2**: Account marketplace",
+                "type": "integer",
+                "enum": [
+                    1,
+                    2
+                ],
+                "example": 2
+            },
+            "SortDirection": {
+                "description": "Sort direction enum.\n     *\n     **Possible values:**\n     *\n     * - **asc**: Ascending order (from lowest to highest)\n     * - **desc**: Descending order (from highest to lowest)",
+                "type": "string",
+                "enum": [
+                    "asc",
+                    "desc"
+                ],
+                "example": "asc"
+            },
+            "OfferSortColumn": {
+                "description": "Offer sort column enum.\n     *\n     **Possible values:**\n     *\n     * - **price_per_step**: Sort by price per step\n     * - **guarantee_delivery_time**: Sort by guarantee delivery time\n     * - **status**: Sort by offer status\n     * - **created_at**: Sort by creation date\n     * - **updated_at**: Sort by last update date",
+                "type": "string",
+                "enum": [
+                    "price_per_step",
+                    "guarantee_delivery_time",
+                    "status",
+                    "created_at",
+                    "updated_at"
+                ],
+                "example": "price_per_step"
+            },
+            "ProductCurrencySettingId": {
+                "description": "Product currency setting ID (game/product ID). This ID identifies a specific game/product in the currency marketplace.\n     *\n     **How to get the ID:**\n     *\n     * 1. Get list of products: GET /shop/marketplace/products/list\n     * 2. Find the desired product in the result array\n     * 3. Use the `id` field from the product object\n     *\n     **Example:**\n     * - ID 4 might represent World of Warcraft Gold\n     * - ID 61 might represent Marvel Rivals Accounts\n     *\n     * Each product currency setting represents a specific game/product configuration with its own fields, pricing, and settings.",
+                "type": "integer",
+                "minimum": 1,
+                "example": 4
+            },
+            "CreateOfferRequest": {
+                "description": "Request to create a new offer. IMPORTANT: Before creating an offer, you MUST get the product details first to know the correct marketplace_type and field requirements. Step-by-step: 1) Get product details via GET /shop/marketplace/products/{productId}, 2) Check the marketplace_type field in response (1 for Gold, 2 for Account), 3) Use the same marketplace_type value in your request. For Account marketplace (marketplace_type = 2): amount MUST be exactly 1, min_purchase_amount MUST be exactly 1, status MUST be 1 (Draft), data is optional. For Gold marketplace (marketplace_type = 1): amount can be 1-2000000000, min_purchase_amount can be 1-2000000000, status can be 1 (Draft) or 2 (Active), data is required.",
+                "required": [
+                    "product_currency_offers",
+                    "guarantee_delivery_time"
+                ],
+                "properties": {
+                    "product_currency_offers": {
+                        "description": "Array of offers to create.",
+                        "type": "array",
+                        "items": {
+                            "required": [
+                                "price_per_step",
+                                "amount",
+                                "min_purchase_amount",
+                                "status",
+                                "marketplace_type"
+                            ],
+                            "properties": {
+                                "price_per_step": {
+                                    "description": "Price per step. For gold marketplace: minimum 0.0001, for account marketplace: minimum 0.1. Maximum: 2000000000",
+                                    "type": "number",
+                                    "format": "float",
+                                    "maximum": 2000000000,
+                                    "minimum": 0.0001,
+                                    "example": 100
+                                },
+                                "amount": {
+                                    "description": "Currency amount.\n     *\n     **For Gold marketplace (marketplace_type = 1):**\n     * - Minimum: 1\n     * - Maximum: 2000000000\n     *\n     **For Account marketplace (marketplace_type = 2):**\n     * - **MUST be exactly 1** (min: 1, max: 1)\n     * - Example: 1\n     *\n     **Important:** For Account marketplace, this field must be exactly 1, otherwise validation will fail with error: The amount field must not be greater than 1.",
+                                    "type": "number",
+                                    "format": "float",
+                                    "maximum": 2000000000,
+                                    "minimum": 1,
+                                    "example": 1
+                                },
+                                "min_purchase_amount": {
+                                    "description": "Minimum purchase amount. Must be >= product step_size.\n     *\n     **For Gold marketplace (marketplace_type = 1):**\n     * - Minimum: 1\n     * - Maximum: 2000000000\n     *\n     **For Account marketplace (marketplace_type = 2):**\n     * - **MUST be exactly 1** (min: 1, max: 1)\n     * - Example: 1\n     *\n     **Important:** For Account marketplace, this field must be exactly 1, otherwise validation will fail with error: The min purchase amount field must not be greater than 1.",
+                                    "type": "number",
+                                    "format": "float",
+                                    "maximum": 2000000000,
+                                    "minimum": 1,
+                                    "example": 1
+                                },
+                                "status": {
+                                    "description": "Offer status.\n     *\n     **For Gold marketplace (marketplace_type = 1):**\n     * - **1** (Draft): Draft status\n     * - **2** (Active): Active status\n     *\n     **For Account marketplace (marketplace_type = 2):**\n     * - **1** (Draft): **ONLY Draft status is allowed when creating** new offer\n     * - Using status 2 or any other value will result in validation error: The selected status is invalid.\n     *\n     **Important:** The status must match the marketplace type restrictions.",
+                                    "type": "integer",
+                                    "enum": [
+                                        1,
+                                        2
+                                    ],
+                                    "example": 1
+                                },
+                                "data": {
+                                    "description": "Offer data object. Structure depends on product currency setting fields. Contains field values selected by the seller.\n     *\n     **For Gold marketplace (marketplace_type = 1):**\n     * - Required field\n     *\n     **For Account marketplace (marketplace_type = 2):**\n     * - Optional field (nullable)\n     *\n     **To get the structure of this object:**\n     *\n     * 1. Get product details: GET /shop/marketplace/products/{productId}\n     * 2. Check the product_currency_setting_fields array in the response\n     * 3. Each field has:\n     * - id - field ID (use as key in data object)\n     * - title - field name\n     * - is_required - whether field is required\n     * - component_edit - field type (1=text, 2=select, etc.)\n     * - product_currency_setting_field_values - available values for select fields\n     *\n     **Example data structure:**\n     * - Key: field ID (from product_currency_setting_fields)\n     * - Value:\n     * - For select fields (single choice): use value ID from product_currency_setting_field_values\n     * - For select fields (multiple choice): use array of value IDs [id1, id2, id3]\n     * - For text fields: use actual text value\n     * - For number fields: use numeric value\n     *\n     **Real example for Account marketplace:**\n     * - Field 80 (multiple select): array of value IDs [2819, 2820, 2818, 2821, 2822, 2823]\n     * - Field 81 (text): string value Battle Royale\n     * - Field 82 (number): numeric value 123\n     * - Field 201 (number): numeric value 10\n     *\n     **Note:** Get the product details first to see which fields are required and what values are available.",
+                                    "type": "object",
+                                    "example": {
+                                        "1": "5",
+                                        "2": "Horde",
+                                        "3": "Custom server name"
+                                    },
+                                    "nullable": true
+                                },
+                                "credential_system_type_id": {
+                                    "description": "Credential system type ID (for account marketplace).\n     *\n     **Possible values:**\n     * - **1** (No Credentials): No credentials system - manual delivery via chat\n     * - **2** (Single Credential): Single credential system - max 1 credential, goes to SOLD when purchased\n     * - **3** (Multiple Credentials): Multiple credentials system - 1+ credentials, goes to NOT_ACTIVE when sold out",
+                                    "type": "integer",
+                                    "enum": [
+                                        1,
+                                        2,
+                                        3
+                                    ],
+                                    "example": 2,
+                                    "nullable": true
+                                },
+                                "search_description": {
+                                    "description": "Search description for offer indexing",
+                                    "type": "string",
+                                    "example": "some text",
+                                    "nullable": true
+                                },
+                                "booster_price": {
+                                    "description": "Booster price (for fake accounts sellers only). Must be less than price_per_step.",
+                                    "type": "number",
+                                    "format": "float",
+                                    "example": null,
+                                    "nullable": true
+                                },
+                                "marketplace_type": {
+                                    "description": "Marketplace type. **MUST match the product type** from the product currency setting.\n     *\n     **Possible values:**\n     * - **1** (Gold): Gold marketplace - for selling in-game currency (gold, coins, etc.)\n     * - **2** (Account): Account marketplace - for selling game accounts\n     *\n     **CRITICAL - READ THIS FIRST:**\n     * 1. **Get the product details:** GET /shop/marketplace/products/{productId}\n     * 2. **Check the marketplace_type field** in the response (it will be either 1 or 2)\n     * 3. **Use the EXACT same marketplace_type value** in your request\n     * 4. **Using wrong marketplace_type will result in validation error:** The selected marketplace type is invalid.\n     *\n     **Example:**\n     * - If product details show marketplace_type: 2, use marketplace_type: 2 in your request\n     * - If product details show marketplace_type: 1, use marketplace_type: 1 in your request",
+                                    "type": "integer",
+                                    "enum": [
+                                        1,
+                                        2
+                                    ],
+                                    "example": 2
+                                },
+                                "screenshots": {
+                                    "description": "Array of screenshot URLs. Screenshots must be uploaded first using POST /shop/marketplace/offers/upload_screenshot (multipart/form-data) or POST /shop/marketplace/offers/upload_screenshots_from_links (for Imgur links). The returned URLs should be included in this array.",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string",
+                                        "example": "storage/uploads/product_currency_offer/screenshot/example.jpg"
+                                    },
+                                    "nullable": true
+                                },
+                                "description": {
+                                    "description": "Offer description. Maximum length: 650 characters (for account marketplace)",
+                                    "type": "string",
+                                    "maxLength": 650,
+                                    "example": "description",
+                                    "nullable": true
+                                },
+                                "comment_for_reviewer": {
+                                    "description": "Comment for reviewer",
+                                    "type": "string",
+                                    "example": "comment",
+                                    "nullable": true
+                                },
+                                "is_auto_activate_status": {
+                                    "description": "Automatically activate status after review passes",
+                                    "type": "boolean",
+                                    "example": true,
+                                    "nullable": true
+                                },
+                                "outer_name": {
+                                    "description": "Outer name (for account marketplace only)",
+                                    "type": "string",
+                                    "maxLength": 255,
+                                    "example": "test offer",
+                                    "nullable": true
+                                },
+                                "internal_name": {
+                                    "description": "Internal name (for seller convenience)",
+                                    "type": "string",
+                                    "maxLength": 255,
+                                    "example": "",
+                                    "nullable": true
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "minItems": 1
+                    },
+                    "guarantee_delivery_time": {
+                        "description": "Guaranteed delivery time (e.g., '1 hour', '24 hours', '3 days')",
+                        "type": "string",
+                        "example": "1"
+                    }
+                },
+                "type": "object"
+            },
+            "EditOfferRequest": {
+                "required": [
+                    "product_currency_offers",
+                    "guarantee_delivery_time"
+                ],
+                "properties": {
+                    "product_currency_offers": {
+                        "description": "Array of offers to create or update. If an object contains 'id', the offer will be updated, otherwise a new offer will be created.",
+                        "type": "array",
+                        "items": {
+                            "required": [
+                                "price_per_step",
+                                "amount",
+                                "min_purchase_amount",
+                                "status",
+                                "data",
+                                "marketplace_type"
+                            ],
+                            "properties": {
+                                "id": {
+                                    "description": "ID of existing offer to update. If not provided, a new offer will be created.",
+                                    "type": "integer",
+                                    "example": 335838,
+                                    "nullable": true
+                                },
+                                "price_per_step": {
+                                    "description": "Price per step. For gold marketplace: minimum 0.0001, for account marketplace: minimum 0.1. Maximum: 2000000000",
+                                    "type": "number",
+                                    "format": "float",
+                                    "maximum": 2000000000,
+                                    "minimum": 0.0001,
+                                    "example": 100
+                                },
+                                "amount": {
+                                    "description": "Currency amount. For gold marketplace: minimum 1, maximum 2000000000. For account marketplace: minimum 1, maximum 1",
+                                    "type": "number",
+                                    "format": "float",
+                                    "maximum": 2000000000,
+                                    "minimum": 1,
+                                    "example": 1
+                                },
+                                "min_purchase_amount": {
+                                    "description": "Minimum purchase amount. Must be >= product step_size. For account marketplace: minimum 1, maximum 1",
+                                    "type": "number",
+                                    "format": "float",
+                                    "maximum": 2000000000,
+                                    "minimum": 1,
+                                    "example": 1
+                                },
+                                "status": {
+                                    "$ref": "#/components/schemas/OfferStatus"
+                                },
+                                "data": {
+                                    "description": "Offer data object. Structure depends on product currency setting fields. Contains field values selected by the seller.\n     *\n     **To get the structure of this object:**\n     *\n     * 1. Get product details: GET /shop/marketplace/products/{productId}\n     * 2. Check the product_currency_setting_fields array in the response\n     * 3. Each field has:\n     * - id - field ID (use as key in data object)\n     * - title - field name\n     * - is_required - whether field is required\n     * - component_edit - field type (1=text, 2=select, etc.)\n     * - product_currency_setting_field_values - available values for select fields\n     *\n     **Example data structure:**\n     * - Key: field ID (from product_currency_setting_fields)\n     * - Value: for select fields use value ID from product_currency_setting_field_values, for text fields use actual text value\n     *\n     **Note:** Get the product details first to see which fields are required and what values are available.",
+                                    "type": "object",
+                                    "example": {
+                                        "1": "5",
+                                        "2": "Horde",
+                                        "3": "Custom server name"
+                                    }
+                                },
+                                "marketplace_type": {
+                                    "description": "Marketplace type. Must match the product type.\n     *\n     **Possible values:**\n     * - **1** (Gold): Gold marketplace\n     * - **2** (Account): Account marketplace",
+                                    "type": "integer",
+                                    "enum": [
+                                        1,
+                                        2
+                                    ],
+                                    "example": 2
+                                },
+                                "screenshots": {
+                                    "description": "Array of screenshot URLs. Screenshots must be uploaded first using POST /shop/marketplace/offers/upload_screenshot (multipart/form-data) or POST /shop/marketplace/offers/upload_screenshots_from_links (for Imgur links). The returned URLs should be included in this array.",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string",
+                                        "example": "storage/uploads/product_currency_offer/screenshot/example.jpg"
+                                    },
+                                    "nullable": true
+                                },
+                                "comment_for_reviewer": {
+                                    "description": "Comment for reviewer",
+                                    "type": "string",
+                                    "example": "comment",
+                                    "nullable": true
+                                },
+                                "is_auto_activate_status": {
+                                    "description": "Automatically activate status after review passes",
+                                    "type": "boolean",
+                                    "example": true,
+                                    "nullable": true
+                                },
+                                "outer_name": {
+                                    "description": "Outer name (for account marketplace only)",
+                                    "type": "string",
+                                    "maxLength": 255,
+                                    "example": "test offer",
+                                    "nullable": true
+                                },
+                                "internal_name": {
+                                    "description": "Internal name (for account marketplace only)",
+                                    "type": "string",
+                                    "maxLength": 255,
+                                    "example": "",
+                                    "nullable": true
+                                },
+                                "description": {
+                                    "description": "Offer description (for account marketplace only)",
+                                    "type": "string",
+                                    "maxLength": 650,
+                                    "example": "description",
+                                    "nullable": true
+                                },
+                                "credential_system_type_id": {
+                                    "description": "Credential system type (for account marketplace only).\n     *\n     **Possible values:**\n     * - **1** (No Credentials): No credentials system - manual delivery via chat\n     * - **2** (Single): Single credential system - max 1 credential, goes to SOLD when purchased\n     * - **3** (Multiple): Multiple credentials system - 1+ credentials, goes to NOT_ACTIVE when sold out",
+                                    "type": "integer",
+                                    "enum": [
+                                        1,
+                                        2,
+                                        3
+                                    ],
+                                    "example": 1,
+                                    "nullable": true
+                                },
+                                "booster_price": {
+                                    "description": "Booster price (for fake sellers in account marketplace only). Must be less than price_per_step",
+                                    "type": "number",
+                                    "format": "float",
+                                    "maximum": 2000000000,
+                                    "minimum": 0.01,
+                                    "example": 80,
+                                    "nullable": true
+                                },
+                                "credentials": {
+                                    "description": "Array of credentials (for account marketplace with credential system). Each credential object contains account login credentials.",
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "email": {
+                                                "description": "Registration email",
+                                                "type": "string",
+                                                "example": "123@test.com",
+                                                "nullable": true
+                                            },
+                                            "email_password": {
+                                                "description": "Email password",
+                                                "type": "string",
+                                                "example": "123456789",
+                                                "nullable": true
+                                            },
+                                            "login": {
+                                                "description": "Account login",
+                                                "type": "string",
+                                                "example": "login"
+                                            },
+                                            "game_password": {
+                                                "description": "Account password",
+                                                "type": "string",
+                                                "example": "987654321"
+                                            },
+                                            "is_2fa_active": {
+                                                "description": "Whether 2FA is active",
+                                                "type": "boolean",
+                                                "example": true,
+                                                "nullable": true
+                                            },
+                                            "comment": {
+                                                "description": "Comment from seller",
+                                                "type": "string",
+                                                "example": "comment",
+                                                "nullable": true
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    "nullable": true
+                                },
+                                "skycoach_price": {
+                                    "description": "Skycoach price",
+                                    "type": "number",
+                                    "format": "float",
+                                    "example": null,
+                                    "nullable": true
+                                },
+                                "import_status": {
+                                    "description": "Import status",
+                                    "type": "integer",
+                                    "example": 1,
+                                    "nullable": true
+                                },
+                                "search_description": {
+                                    "description": "Search description for offer indexing",
+                                    "type": "string",
+                                    "example": "some text",
+                                    "nullable": true
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "minItems": 1
+                    },
+                    "guarantee_delivery_time": {
+                        "description": "Guaranteed delivery time (e.g., '1 hour', '24 hours', '3 days')",
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "1"
+                    }
+                },
+                "type": "object"
+            },
+            "ManageOfferRequest": {
+                "required": [
+                    "product_currency_offers",
+                    "guarantee_delivery_time"
+                ],
+                "properties": {
+                    "product_currency_offers": {
+                        "description": "Array of offers to create or update. If an offer object contains 'id', it will be updated. If 'id' is missing, a new offer will be created.",
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "description": "Offer ID. If provided, the offer will be updated. If missing, a new offer will be created.",
+                                    "type": "integer",
+                                    "example": 335838,
+                                    "nullable": true
+                                },
+                                "price_per_step": {
+                                    "description": "Price per step. For account marketplace: minimum 0.1, maximum 2000000000. For gold marketplace: minimum 0.0001, maximum 2000000000",
+                                    "type": "number",
+                                    "format": "float",
+                                    "maximum": 2000000000,
+                                    "minimum": 0.0001,
+                                    "example": 100
+                                },
+                                "amount": {
+                                    "description": "Offer amount. For account marketplace: minimum 1, maximum 1. For gold marketplace: minimum 1, maximum 2000000000",
+                                    "type": "number",
+                                    "format": "float",
+                                    "maximum": 2000000000,
+                                    "minimum": 1,
+                                    "example": 1
+                                },
+                                "min_purchase_amount": {
+                                    "description": "Minimum purchase amount. Must be >= product step_size. For account marketplace: minimum 1, maximum 1",
+                                    "type": "number",
+                                    "format": "float",
+                                    "maximum": 2000000000,
+                                    "minimum": 1,
+                                    "example": 1
+                                },
+                                "data": {
+                                    "description": "Offer data object. Structure depends on product currency setting fields. Contains field values selected by the seller. All required fields must be provided and validated.\n\n**To get the structure of this object:**\n\n* 1. Get product details: GET /shop/marketplace/products/{productId}\n* 2. Check the product_currency_setting_fields array in the response\n* 3. Each field has:\n* - id - field ID (use as key in data object)\n* - title - field name\n* - is_required - whether field is required\n* - component_edit - field type (1=text, 2=select, etc.)\n* - product_currency_setting_field_values - available values for select fields\n\n**Example data structure:**\n* - Key: field ID (from product_currency_setting_fields)\n* - Value: for select fields use value ID from product_currency_setting_field_values, for text fields use actual text value\n\n**Note:** Get the product details first to see which fields are required and what values are available.",
+                                    "type": "object",
+                                    "example": {
+                                        "80": "2819,2820,2818",
+                                        "81": "Battle Royale",
+                                        "82": 123
+                                    }
+                                },
+                                "marketplace_type": {
+                                    "description": "Marketplace type. Must match the product type.\n\n**Possible values:**\n* - **1** (Gold): Gold marketplace\n* - **2** (Account): Account marketplace",
+                                    "type": "integer",
+                                    "enum": [
+                                        1,
+                                        2
+                                    ],
+                                    "example": 2
+                                },
+                                "screenshots": {
+                                    "description": "Array of screenshot URLs. Screenshots must be uploaded first using POST /shop/marketplace/offers/upload_screenshot (multipart/form-data) or POST /shop/marketplace/offers/upload_screenshots_from_links (for Imgur links). The returned URLs should be included in this array.",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string",
+                                        "example": "storage/uploads/product_currency_offer/screenshot/example.jpg"
+                                    },
+                                    "nullable": true
+                                },
+                                "comment_for_reviewer": {
+                                    "description": "Comment for reviewer",
+                                    "type": "string",
+                                    "example": "comment",
+                                    "nullable": true
+                                },
+                                "is_auto_activate_status": {
+                                    "description": "Automatically activate status after review passes",
+                                    "type": "boolean",
+                                    "example": true,
+                                    "nullable": true
+                                },
+                                "outer_name": {
+                                    "description": "Outer name (for account marketplace only)",
+                                    "type": "string",
+                                    "maxLength": 255,
+                                    "example": "test offer",
+                                    "nullable": true
+                                },
+                                "internal_name": {
+                                    "description": "Internal name (for account marketplace only)",
+                                    "type": "string",
+                                    "maxLength": 255,
+                                    "example": "",
+                                    "nullable": true
+                                },
+                                "description": {
+                                    "description": "Offer description (for account marketplace only)",
+                                    "type": "string",
+                                    "maxLength": 650,
+                                    "example": "description",
+                                    "nullable": true
+                                },
+                                "credential_system_type_id": {
+                                    "description": "Credential system type (for account marketplace only).\n\n**Possible values:**\n* - **1** (No Credentials): No credentials system - manual delivery via chat\n* - **2** (Single): Single credential system - max 1 credential, goes to SOLD when purchased\n* - **3** (Multiple): Multiple credentials system - 1+ credentials, goes to NOT_ACTIVE when sold out",
+                                    "type": "integer",
+                                    "enum": [
+                                        1,
+                                        2,
+                                        3
+                                    ],
+                                    "example": 1,
+                                    "nullable": true
+                                },
+                                "booster_price": {
+                                    "description": "Booster price (for fake sellers in account marketplace only). Must be less than price_per_step",
+                                    "type": "number",
+                                    "format": "float",
+                                    "maximum": 2000000000,
+                                    "minimum": 0.01,
+                                    "example": 80,
+                                    "nullable": true
+                                },
+                                "credentials": {
+                                    "description": "Array of credentials (for account marketplace with credential system). Each credential object contains account login credentials.",
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "email": {
+                                                "description": "Registration email",
+                                                "type": "string",
+                                                "example": "123@test.com",
+                                                "nullable": true
+                                            },
+                                            "email_password": {
+                                                "description": "Email password",
+                                                "type": "string",
+                                                "example": "123456789",
+                                                "nullable": true
+                                            },
+                                            "login": {
+                                                "description": "Account login",
+                                                "type": "string",
+                                                "example": "login"
+                                            },
+                                            "game_password": {
+                                                "description": "Account password",
+                                                "type": "string",
+                                                "example": "987654321"
+                                            },
+                                            "is_2fa_active": {
+                                                "description": "Whether 2FA is active",
+                                                "type": "boolean",
+                                                "example": true,
+                                                "nullable": true
+                                            },
+                                            "comment": {
+                                                "description": "Comment from seller",
+                                                "type": "string",
+                                                "example": "comment",
+                                                "nullable": true
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    "nullable": true
+                                },
+                                "skycoach_price": {
+                                    "description": "Skycoach price",
+                                    "type": "number",
+                                    "format": "float",
+                                    "example": null,
+                                    "nullable": true
+                                },
+                                "import_status": {
+                                    "description": "Import status",
+                                    "type": "integer",
+                                    "example": 1,
+                                    "nullable": true
+                                },
+                                "search_description": {
+                                    "description": "Search description for offer indexing",
+                                    "type": "string",
+                                    "example": "some text",
+                                    "nullable": true
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "guarantee_delivery_time": {
+                        "description": "Guaranteed delivery time (e.g., '1 hour', '24 hours', '3 days')",
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "1"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "parameters": {
+            "Accept": {
+                "name": "Accept",
+                "in": "header",
+                "description": "API response format",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "default": "application/json",
+                    "enum": [
+                        "application/json"
+                    ]
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Currency Marketplace",
+            "description": "Currency Marketplace"
+        },
+        {
+            "name": "Offers",
+            "description": "Offers"
+        },
+        {
+            "name": "Offer Credentials",
+            "description": "Offer Credentials"
+        }
+    ]
 }
