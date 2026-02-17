@@ -1,32 +1,44 @@
 {
   "$schema": "https://mintlify.com/schema.json",
   "name": "SkyCoach API Documentation",
-  "logo": {
-    "dark": "/logo/dark.svg",
-    "light": "/logo/light.svg"
-  },
+
+  "appearance": "dark",
+
+  "logo": "https://skycoach.gg/images/logos/rebranded/logo-full--black-bg.png"
+
   "favicon": "/favicon.svg",
+
   "colors": {
     "primary": "#0D9373",
-    "light": "#07C983",
     "dark": "#0D9373"
   },
+
+  "background": {
+    "dark": "#020617"
+  },
+
   "topbarLinks": [
     {
       "name": "Support",
       "url": "mailto:support@skycoach.com"
     }
   ],
+
   "topbarCtaButton": {
     "name": "Dashboard",
     "url": "https://skycoach.com"
   },
+
   "navigation": [
     {
       "group": "Getting Started",
-      "pages": ["introduction", "get-api-token"]
+      "pages": [
+        "introduction",
+        "get-api-token"
+      ]
     }
   ],
+
   "tabs": [
     {
       "name": "API Reference",
