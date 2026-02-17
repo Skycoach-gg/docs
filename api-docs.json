@@ -11,19 +11,6 @@
             "description": "API Server"
         }
     ],
-      "components": {
-    "parameters": {
-      "AcceptHeader": {
-        "name": "Accept",
-        "in": "header",
-        "required": true,
-        "schema": {
-          "type": "string",
-          "default": "application/json"
-        }
-      }
-    }
-  },
     "paths": {
         "/api/shop/marketplace/products/list": {
             "get": {
@@ -2244,6 +2231,18 @@
         }
     },
     "components": {
+      "parameters": {
+    "AcceptHeader": {
+      "name": "Accept",
+      "in": "header",
+      "required": true,
+      "schema": {
+        "type": "string",
+        "default": "application/json"
+      },
+      "description": "Required header"
+    }
+  },
         "schemas": {
             "OfferStatus": {
                 "description": "Offer status enum.\n     *\n     **Possible values:**\n     *\n     * - **1** (Draft): Offer is saved as draft and not visible to others\n     * - **2** (Active): Offer is active and visible to customers\n     * - **3** (Not Active): Offer is not active and not visible to customers\n     * - **4** (Need Details): Offer has not passed the review and needs additional details\n     * - **5** (On Review): Offer is under review\n     * - **6** (Sold): There is an order for this offer\n     * - **7** (Transfered): The order for this offer has been completed\n     * - **8** (Review Passed): Offer has passed the review and waiting for activation",
