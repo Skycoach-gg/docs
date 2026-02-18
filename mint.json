@@ -7,11 +7,10 @@
 
   "favicon": "https://skycoach.gg/images/favicon/rebranded/1__192x192.png",
 
-"colors": {
-  "primary": "#5A30FF",
-  "dark": "#5A30FF"
-}
-
+  "colors": {
+    "primary": "#5A30FF",
+    "dark": "#5A30FF"
+  },
   "topbar": {
     "primary": "#5A30FF"
   },
