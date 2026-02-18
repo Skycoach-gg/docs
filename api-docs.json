@@ -22,7 +22,7 @@
         {
             "url": "https://skycoach.gg"
         }
-    ]
+    ],
     "paths": {
         "/api/shop/marketplace/products/list": {
             "get": {
