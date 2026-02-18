@@ -9,7 +9,8 @@
 
   "colors": {
     "primary": "#5A30FF",
-    "dark": "#5A30FF"
+    "dark": "#5A30FF",
+    "light": "#5A30FF"
   },
   "topbar": {
     "primary": "#5A30FF"
