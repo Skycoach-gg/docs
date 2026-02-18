@@ -52,7 +52,8 @@
       "url": "api-reference",
       "openapi": "/api-docs.json",
       "theme": {
-        "primary": "#5A30FF"
+        "primary": "#5A30FF",
+        "dark": "#5A30FF"
       }
     }
   ]
