@@ -10,10 +10,6 @@
   "colors": {
   "primary": "#5A30FF"
   },
-  
-  "theme": {
-  "primary": "#5A30FF"
-  },
 
   "background": {
     "dark": "#020617"
@@ -50,7 +46,10 @@
     {
       "name": "API Reference",
       "url": "api-reference",
-      "openapi": "/api-docs.json"
+      "openapi": "/api-docs.json",
+      "theme": {
+        "primary": "#5A30FF"
+      }
     }
   ]
 }
