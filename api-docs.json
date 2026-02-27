@@ -1,26 +1,14 @@
 {
     "openapi": "3.0.0",
-
-    "x-mintlify": {
-        "theme": {
-            "primary": "#5A30FF"
-        }
-    },
-
     "info": {
         "title": "Currency Marketplace API",
-        "version": "1.0.0",
-
-        "x-mintlify": {
-            "theme": {
-                "primary": "#5A30FF"
-            }
-        }
+        "description": "API documentation for Currency Marketplace",
+        "version": "1.0.0"
     },
-
     "servers": [
         {
-            "url": "https://skycoach.gg"
+            "url": "https://skycoach.gg/",
+            "description": "API Server"
         }
     ],
     "paths": {
@@ -153,13 +141,13 @@
                                                         ],
                                                         "example": 2
                                                     },
-                                                    "related_product_currency_settings": {
+                                                    "related_product": {
                                                         "type": "array",
                                                         "items": {
                                                             "type": "object"
                                                         }
                                                     },
-                                                    "product_currency_setting_fields": {
+                                                    "product_fields": {
                                                         "type": "array",
                                                         "items": {
                                                             "properties": {
@@ -172,7 +160,7 @@
                                                                     "example": null,
                                                                     "nullable": true
                                                                 },
-                                                                "product_currency_setting_id": {
+                                                                "product_id": {
                                                                     "type": "integer",
                                                                     "example": 61
                                                                 },
@@ -271,7 +259,7 @@
                                                                     "type": "boolean",
                                                                     "example": false
                                                                 },
-                                                                "product_currency_setting_field_values": {
+                                                                "field_values": {
                                                                     "type": "array",
                                                                     "items": {
                                                                         "properties": {
@@ -279,7 +267,7 @@
                                                                                 "type": "integer",
                                                                                 "example": 1
                                                                             },
-                                                                            "product_currency_setting_field_id": {
+                                                                            "field_id": {
                                                                                 "type": "integer",
                                                                                 "example": 198
                                                                             },
@@ -428,13 +416,13 @@
                                                     ],
                                                     "example": 2
                                                 },
-                                                "related_product_currency_settings": {
+                                                "related_product": {
                                                     "type": "array",
                                                     "items": {
                                                         "type": "object"
                                                     }
                                                 },
-                                                "product_currency_setting_fields": {
+                                                "product_fields": {
                                                     "type": "array",
                                                     "items": {
                                                         "properties": {
@@ -447,7 +435,7 @@
                                                                 "example": null,
                                                                 "nullable": true
                                                             },
-                                                            "product_currency_setting_id": {
+                                                            "product_id": {
                                                                 "type": "integer",
                                                                 "example": 61
                                                             },
@@ -546,7 +534,7 @@
                                                                 "type": "boolean",
                                                                 "example": false
                                                             },
-                                                            "product_currency_setting_field_values": {
+                                                            "field_values": {
                                                                 "type": "array",
                                                                 "items": {
                                                                     "properties": {
@@ -554,7 +542,7 @@
                                                                             "type": "integer",
                                                                             "example": 1
                                                                         },
-                                                                        "product_currency_setting_field_id": {
+                                                                        "product_field_id": {
                                                                             "type": "integer",
                                                                             "example": 198
                                                                         },
@@ -747,7 +735,7 @@
                                                         "type": "integer",
                                                         "example": 123
                                                     },
-                                                    "product_currency_setting_id": {
+                                                    "product_id": {
                                                         "type": "integer",
                                                         "example": 14
                                                     },
@@ -1047,14 +1035,14 @@
                 ]
             }
         },
-        "/api/shop/marketplace/offers/{productId}/manage": {
+        "/api/shop/marketplace/products/{productId}/offers/manage": {
             "post": {
                 "tags": [
                     "Offers"
                 ],
                 "summary": "Manage offer (create or edit with automatic status determination)",
-                "description": "Create or edit offers with full field validation including custom data fields. Status is automatically determined based on validation results and account capabilities. Status field is prohibited in request - it will be set automatically.\n\n**Automatic status determination:**\n- **Gold marketplace**: Always set to Active if validation passes\n- **Account marketplace**:\n  - If data field validation fails → Need Details\n  - If MULTIPLE credential system and no active credentials → Not Active\n  - If all validations pass → On Review (for moderation)\n\n**Operation type (add/edit):**\n- Operation type is determined automatically by presence of 'id' field in offer object\n- If 'id' is present → edit operation (only provided fields will be updated)\n- If 'id' is missing → add operation (all required fields must be provided)\n\nEdit existing offers or create new ones. Each offer is validated and processed separately. Results are returned as an array with status for each offer.",
-                "operationId": "3316a7b745b5ff157c4c59512ad7f663",
+                "description": "Create or edit offers with full field validation including custom data fields. Status is automatically determined based on validation results and account capabilities. Status field is prohibited in request - it will be set automatically.\n     *\n     **Automatic status determination:**\n     * - **Gold marketplace**: Always set to Active if validation passes\n     * - **Account marketplace**:\n     * - If data field validation fails → Need Details\n     * - If MULTIPLE credential system and no active credentials → Not Active\n     * - If all validations pass → On Review (for moderation)\n     *\n     **Operation type (add/edit):**\n     * - Operation type is determined automatically by presence of 'id' field in offer object\n     * - If 'id' is present → edit operation (only provided fields will be updated)\n     * - If 'id' is missing → add operation (all required fields must be provided)\n     *\n     * Edit existing offers or create new ones. Each offer is validated and processed separately. Results are returned as an array with status for each offer.",
+                "operationId": "57638bf7ff98bce61d4830ee104bd885",
                 "parameters": [
                     {
                         "name": "Accept",
@@ -1088,7 +1076,7 @@
                                 "$ref": "#/components/schemas/ManageOfferRequest"
                             },
                             "example": {
-                                "product_currency_offers": [
+                                "offers": [
                                     {
                                         "price_per_step": 2,
                                         "amount": 1,
@@ -1208,10 +1196,10 @@
                                         "errors": {
                                             "type": "object",
                                             "example": {
-                                                "product_currency_offers.0.price_per_step": [
-                                                    "The product_currency_offers.0.price_per_step field must be a number."
+                                                "offers.0.price_per_step": [
+                                                    "The offers.0.price_per_step field must be a number."
                                                 ],
-                                                "product_currency_offers.0.data.71": [
+                                                "offers.0.data.71": [
                                                     {
                                                         "error": "Invalid value for field: Rank",
                                                         "type": "string",
@@ -1229,7 +1217,7 @@
                                                         ]
                                                     }
                                                 ],
-                                                "product_currency_offers.0.data.74": [
+                                                "offers.0.data.74": [
                                                     {
                                                         "error": "Invalid value for field: Leveling",
                                                         "type": "string",
@@ -2247,14 +2235,14 @@
                 ]
             }
         },
-        "/api/shop/marketplace/offers/{offerId}/credentials/batch": {
+        "/api/shop/marketplace/offers/{offerId}/credentials/replace_all": {
             "put": {
                 "tags": [
                     "Offer Credentials"
                 ],
                 "summary": "Replace all credentials (batch replace)",
                 "description": "Available only for offers with credential_system_type_id = 2 (Single) or 3 (Multiple).\n     *\n     **Credential system types:**\n     *\n     * - **1** (No Credentials): No credentials system - manual delivery via chat\n     * - **2** (Single): Single credential system - max 1 credential, goes to SOLD when purchased\n     * - **3** (Multiple): Multiple credentials system - 1+ credentials, goes to NOT_ACTIVE when sold out",
-                "operationId": "bd8241b3ed9529d9e794c20338031fec",
+                "operationId": "b1854f7f6d5bd1b64cebd90319e8f523",
                 "parameters": [
                     {
                         "name": "Accept",
@@ -2471,11 +2459,11 @@
             "CreateOfferRequest": {
                 "description": "Request to create a new offer. IMPORTANT: Before creating an offer, you MUST get the product details first to know the correct marketplace_type and field requirements. Step-by-step: 1) Get product details via GET /shop/marketplace/products/{productId}, 2) Check the marketplace_type field in response (1 for Gold, 2 for Account), 3) Use the same marketplace_type value in your request. For Account marketplace (marketplace_type = 2): amount MUST be exactly 1, min_purchase_amount MUST be exactly 1, status MUST be 1 (Draft), data is optional. For Gold marketplace (marketplace_type = 1): amount can be 1-2000000000, min_purchase_amount can be 1-2000000000, status can be 1 (Draft) or 2 (Active), data is required.",
                 "required": [
-                    "product_currency_offers",
+                    "offers",
                     "guarantee_delivery_time"
                 ],
                 "properties": {
-                    "product_currency_offers": {
+                    "offers": {
                         "description": "Array of offers to create.",
                         "type": "array",
                         "items": {
@@ -2521,7 +2509,7 @@
                                     "example": 1
                                 },
                                 "data": {
-                                    "description": "Offer data object. Structure depends on product currency setting fields. Contains field values selected by the seller.\n     *\n     **For Gold marketplace (marketplace_type = 1):**\n     * - Required field\n     *\n     **For Account marketplace (marketplace_type = 2):**\n     * - Optional field (nullable)\n     *\n     **To get the structure of this object:**\n     *\n     * 1. Get product details: GET /shop/marketplace/products/{productId}\n     * 2. Check the product_currency_setting_fields array in the response\n     * 3. Each field has:\n     * - id - field ID (use as key in data object)\n     * - title - field name\n     * - is_required - whether field is required\n     * - component_edit - field type (1=text, 2=select, etc.)\n     * - product_currency_setting_field_values - available values for select fields\n     *\n     **Example data structure:**\n     * - Key: field ID (from product_currency_setting_fields)\n     * - Value:\n     * - For select fields (single choice): use value ID from product_currency_setting_field_values\n     * - For select fields (multiple choice): use array of value IDs [id1, id2, id3]\n     * - For text fields: use actual text value\n     * - For number fields: use numeric value\n     *\n     **Real example for Account marketplace:**\n     * - Field 80 (multiple select): array of value IDs [2819, 2820, 2818, 2821, 2822, 2823]\n     * - Field 81 (text): string value Battle Royale\n     * - Field 82 (number): numeric value 123\n     * - Field 201 (number): numeric value 10\n     *\n     **Note:** Get the product details first to see which fields are required and what values are available.",
+                                    "description": "Offer data object. Structure depends on product currency setting fields. Contains field values selected by the seller.\n     *\n     **For Gold marketplace (marketplace_type = 1):**\n     * - Required field\n     *\n     **For Account marketplace (marketplace_type = 2):**\n     * - Optional field (nullable)\n     *\n     **To get the structure of this object:**\n     *\n     * 1. Get product details: GET /shop/marketplace/products/{productId}\n     * 2. Check the product_fields array in the response\n     * 3. Each field has:\n     * - id - field ID (use as key in data object)\n     * - title - field name\n     * - is_required - whether field is required\n     * - component_edit - field type (1=text, 2=select, etc.)\n     * - field_values - available values for select fields\n     *\n     **Example data structure:**\n     * - Key: field ID (from product_fields)\n     * - Value:\n     * - For select fields (single choice): use value ID from field_values\n     * - For select fields (multiple choice): use array of value IDs [id1, id2, id3]\n     * - For text fields: use actual text value\n     * - For number fields: use numeric value\n     *\n     **Real example for Account marketplace:**\n     * - Field 80 (multiple select): array of value IDs [2819, 2820, 2818, 2821, 2822, 2823]\n     * - Field 81 (text): string value Battle Royale\n     * - Field 82 (number): numeric value 123\n     * - Field 201 (number): numeric value 10\n     *\n     **Note:** Get the product details first to see which fields are required and what values are available.",
                                     "type": "object",
                                     "example": {
                                         "1": "5",
@@ -2620,11 +2608,11 @@
             },
             "EditOfferRequest": {
                 "required": [
-                    "product_currency_offers",
+                    "offers",
                     "guarantee_delivery_time"
                 ],
                 "properties": {
-                    "product_currency_offers": {
+                    "offers": {
                         "description": "Array of offers to create or update. If an object contains 'id', the offer will be updated, otherwise a new offer will be created.",
                         "type": "array",
                         "items": {
@@ -2671,7 +2659,7 @@
                                     "$ref": "#/components/schemas/OfferStatus"
                                 },
                                 "data": {
-                                    "description": "Offer data object. Structure depends on product currency setting fields. Contains field values selected by the seller.\n     *\n     **To get the structure of this object:**\n     *\n     * 1. Get product details: GET /shop/marketplace/products/{productId}\n     * 2. Check the product_currency_setting_fields array in the response\n     * 3. Each field has:\n     * - id - field ID (use as key in data object)\n     * - title - field name\n     * - is_required - whether field is required\n     * - component_edit - field type (1=text, 2=select, etc.)\n     * - product_currency_setting_field_values - available values for select fields\n     *\n     **Example data structure:**\n     * - Key: field ID (from product_currency_setting_fields)\n     * - Value: for select fields use value ID from product_currency_setting_field_values, for text fields use actual text value\n     *\n     **Note:** Get the product details first to see which fields are required and what values are available.",
+                                    "description": "Offer data object. Structure depends on product currency setting fields. Contains field values selected by the seller.\n     *\n     **To get the structure of this object:**\n     *\n     * 1. Get product details: GET /shop/marketplace/products/{productId}\n     * 2. Check the product_fields array in the response\n     * 3. Each field has:\n     * - id - field ID (use as key in data object)\n     * - title - field name\n     * - is_required - whether field is required\n     * - component_edit - field type (1=text, 2=select, etc.)\n     * - field_values - available values for select fields\n     *\n     **Example data structure:**\n     * - Key: field ID (from product_fields)\n     * - Value: for select fields use value ID from field_values, for text fields use actual text value\n     *\n     **Note:** Get the product details first to see which fields are required and what values are available.",
                                     "type": "object",
                                     "example": {
                                         "1": "5",
@@ -2829,11 +2817,11 @@
             },
             "ManageOfferRequest": {
                 "required": [
-                    "product_currency_offers",
+                    "offers",
                     "guarantee_delivery_time"
                 ],
                 "properties": {
-                    "product_currency_offers": {
+                    "offers": {
                         "description": "Array of offers to create or update. If an offer object contains 'id', it will be updated. If 'id' is missing, a new offer will be created.",
                         "type": "array",
                         "items": {
@@ -2869,7 +2857,7 @@
                                     "example": 1
                                 },
                                 "data": {
-                                    "description": "Offer data object. Structure depends on product currency setting fields. Contains field values selected by the seller. All required fields must be provided and validated.\n\n**To get the structure of this object:**\n\n* 1. Get product details: GET /shop/marketplace/products/{productId}\n* 2. Check the product_currency_setting_fields array in the response\n* 3. Each field has:\n* - id - field ID (use as key in data object)\n* - title - field name\n* - is_required - whether field is required\n* - component_edit - field type (1=text, 2=select, etc.)\n* - product_currency_setting_field_values - available values for select fields\n\n**Example data structure:**\n* - Key: field ID (from product_currency_setting_fields)\n* - Value: for select fields use value ID from product_currency_setting_field_values, for text fields use actual text value\n\n**Note:** Get the product details first to see which fields are required and what values are available.",
+                                    "description": "Offer data object. Structure depends on product currency setting fields. Contains field values selected by the seller. All required fields must be provided and validated.\n\n**To get the structure of this object:**\n\n* 1. Get product details: GET /shop/marketplace/products/{productId}\n* 2. Check the product_fields array in the response\n* 3. Each field has:\n* - id - field ID (use as key in data object)\n* - title - field name\n* - is_required - whether field is required\n* - component_edit - field type (1=text, 2=select, etc.)\n* - field_values - available values for select fields\n\n**Example data structure:**\n* - Key: field ID (from product_fields)\n* - Value: for select fields use value ID from field_values, for text fields use actual text value\n\n**Note:** Get the product details first to see which fields are required and what values are available.",
                                     "type": "object",
                                     "example": {
                                         "80": "2819,2820,2818",
