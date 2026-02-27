@@ -744,7 +744,7 @@
                                                         "type": "integer",
                                                         "example": 123
                                                     },
-                                                    "settingId": {
+                                                    "product_id": {
                                                         "type": "integer",
                                                         "example": 14
                                                     },
