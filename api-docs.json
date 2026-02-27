@@ -160,7 +160,7 @@
                                                                     "example": null,
                                                                     "nullable": true
                                                                 },
-                                                                "settingId": {
+                                                                "product_id": {
                                                                     "type": "integer",
                                                                     "example": 61
                                                                 },
@@ -267,7 +267,7 @@
                                                                                 "type": "integer",
                                                                                 "example": 1
                                                                             },
-                                                                            "field_id": {
+                                                                            "product_field_id": {
                                                                                 "type": "integer",
                                                                                 "example": 198
                                                                             },
@@ -435,7 +435,7 @@
                                                                 "example": null,
                                                                 "nullable": true
                                                             },
-                                                            "settingId": {
+                                                            "product_id": {
                                                                 "type": "integer",
                                                                 "example": 61
                                                             },
@@ -534,7 +534,7 @@
                                                                 "type": "boolean",
                                                                 "example": false
                                                             },
-                                                            "field_values": {
+                                                            "product_field_values": {
                                                                 "type": "array",
                                                                 "items": {
                                                                     "properties": {
@@ -542,7 +542,7 @@
                                                                             "type": "integer",
                                                                             "example": 1
                                                                         },
-                                                                        "field_id": {
+                                                                        "product_field_id": {
                                                                             "type": "integer",
                                                                             "example": 198
                                                                         },
