@@ -160,7 +160,7 @@
                                                                     "example": null,
                                                                     "nullable": true
                                                                 },
-                                                                "product_id": {
+                                                                "settingId": {
                                                                     "type": "integer",
                                                                     "example": 61
                                                                 },
@@ -435,7 +435,7 @@
                                                                 "example": null,
                                                                 "nullable": true
                                                             },
-                                                            "product_id": {
+                                                            "settingId": {
                                                                 "type": "integer",
                                                                 "example": 61
                                                             },
@@ -542,7 +542,7 @@
                                                                             "type": "integer",
                                                                             "example": 1
                                                                         },
-                                                                        "product_field_id": {
+                                                                        "field_id": {
                                                                             "type": "integer",
                                                                             "example": 198
                                                                         },
@@ -642,6 +642,15 @@
                         }
                     },
                     {
+                        "name": "with_product_id",
+                        "in": "query",
+                        "description": "Filter offers by product ID. This parameter will be automatically converted to product_currency_setting_id internally.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
                         "name": "Accept",
                         "in": "header",
                         "description": "API response format",
@@ -735,7 +744,7 @@
                                                         "type": "integer",
                                                         "example": 123
                                                     },
-                                                    "product_id": {
+                                                    "settingId": {
                                                         "type": "integer",
                                                         "example": 14
                                                     },
