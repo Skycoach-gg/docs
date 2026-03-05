@@ -623,14 +623,14 @@
                 ]
             }
         },
-        "/api/shop/marketplace/offers/my": {
+        "/api/shop/marketplace/offers/my_offers": {
             "get": {
                 "tags": [
                     "Offers"
                 ],
                 "summary": "Show my offers",
                 "description": "Get list of offers created by the authenticated user. To get a specific offer, pass the 'id' parameter with the offer ID.",
-                "operationId": "e20e766243d84c6801f7ef3b00a70b78",
+                "operationId": "437a51545af84e26c6c83aba8a414c77",
                 "parameters": [
                     {
                         "name": "with_id",
@@ -2866,7 +2866,7 @@
                                     "example": 1
                                 },
                                 "data": {
-                                    "description": "Offer data object. Structure depends on product currency setting fields. Contains field values selected by the seller. All required fields must be provided and validated.\n\n**To get the structure of this object:**\n\n* 1. Get product details: GET /shop/marketplace/products/{productId}\n* 2. Check the product_fields array in the response\n* 3. Each field has:\n* - id - field ID (use as key in data object)\n* - title - field name\n* - is_required - whether field is required\n* - component_edit - field type (1=text, 2=select, etc.)\n* - field_values - available values for select fields\n\n**Example data structure:**\n* - Key: field ID (from product_fields)\n* - Value: for select fields use value ID from field_values, for text fields use actual text value\n\n**Note:** Get the product details first to see which fields are required and what values are available.",
+                                    "description": "Offer data object. Structure depends on product currency setting fields. Contains field values selected by the seller. All required fields must be provided and validated.\n     *\n     **To get the structure of this object:**\n     *\n     * 1. Get product details: GET /shop/marketplace/products/{productId}\n     * 2. Check the product_fields array in the response\n     * 3. Each field has:\n     * - id - field ID (use as key in data object)\n     * - title - field name\n     * - is_required - whether field is required\n     * - component_edit - field type (1=text, 2=select, etc.)\n     * - field_values - available values for select fields\n     *\n     **Example data structure:**\n     * - Key: field ID (from product_fields)\n     * - Value: for select fields use value ID from field_values, for text fields use actual text value\n     *\n     **Note:** Get the product details first to see which fields are required and what values are available.",
                                     "type": "object",
                                     "example": {
                                         "80": "2819,2820,2818",
@@ -2875,7 +2875,7 @@
                                     }
                                 },
                                 "marketplace_type": {
-                                    "description": "Marketplace type. Must match the product type.\n\n**Possible values:**\n* - **1** (Gold): Gold marketplace\n* - **2** (Account): Account marketplace",
+                                    "description": "Marketplace type. Must match the product type.\n     *\n     **Possible values:**\n     * - **1** (Gold): Gold marketplace\n     * - **2** (Account): Account marketplace",
                                     "type": "integer",
                                     "enum": [
                                         1,
@@ -2926,7 +2926,7 @@
                                     "nullable": true
                                 },
                                 "credential_system_type_id": {
-                                    "description": "Credential system type (for account marketplace only).\n\n**Possible values:**\n* - **1** (No Credentials): No credentials system - manual delivery via chat\n* - **2** (Single): Single credential system - max 1 credential, goes to SOLD when purchased\n* - **3** (Multiple): Multiple credentials system - 1+ credentials, goes to NOT_ACTIVE when sold out",
+                                    "description": "Credential system type (for account marketplace only).\n     *\n     **Possible values:**\n     * - **1** (No Credentials): No credentials system - manual delivery via chat\n     * - **2** (Single): Single credential system - max 1 credential, goes to SOLD when purchased\n     * - **3** (Multiple): Multiple credentials system - 1+ credentials, goes to NOT_ACTIVE when sold out",
                                     "type": "integer",
                                     "enum": [
                                         1,
