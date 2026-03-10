@@ -1376,13 +1376,13 @@
                 ]
             }
         },
-        "/api/shop/marketplace/offers/attach_screenshot": {
+        "/api/shop/marketplace/offers/{offerId}/attach_screenshot": {
             "post": {
                 "tags": [
                     "Offers"
                 ],
                 "summary": "Attach screenshot",
-                "operationId": "5b88fdea7cb4428fb9104b272b7b16d2",
+                "operationId": "428f60aab6415f458fb6161a754fc468",
                 "parameters": [
                     {
                         "name": "Accept",
@@ -1395,6 +1395,16 @@
                             "enum": [
                                 "application/json"
                             ]
+                        }
+                    },
+                    {
+                        "name": "offerId",
+                        "in": "path",
+                        "description": "ID of the offer to attach screenshot to",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 123849
                         }
                     }
                 ],
