@@ -2,8 +2,10 @@
   "$schema": "https://mintlify.com/schema.json",
   "name": "SkyCoach API Documentation",
 
-  "logo": "https://skycoach.gg/images/logos/rebranded/logo-full--black-bg.png",
-  "logo": "https://skycoach.gg/images/logos/rebranded/logo.svg",
+  "logo": {
+    "dark": "https://skycoach.gg/images/logos/rebranded/logo-full--black-bg.png",
+    "light": "https://skycoach.gg/images/logos/rebranded/logo.svg"
+  },
 
   "favicon": "https://skycoach.gg/images/favicon/rebranded/1__192x192.png",
 
@@ -42,7 +44,8 @@
       "group": "Getting Started",
       "pages": [
         "introduction",
-        "get-api-token"
+        "get-api-token",
+        "creating-offers"
       ]
     }
   ],
