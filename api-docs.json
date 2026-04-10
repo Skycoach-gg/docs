@@ -1324,7 +1324,15 @@
                                 ],
                                 "properties": {
                                     "status": {
-                                        "$ref": "#/components/schemas/OfferStatus"
+                                        "description": "New offer status. Only the following statuses are allowed for sellers:\n     *\n     * - **1** (Draft): Move offer to draft\n     * - **2** (Active): Activate offer (visible to customers)\n     * - **3** (Not Active): Deactivate offer (hidden from customers)\n     * - **5** (On Review): Send offer for review",
+                                        "type": "integer",
+                                        "enum": [
+                                            1,
+                                            2,
+                                            3,
+                                            5
+                                        ],
+                                        "example": 2
                                     }
                                 },
                                 "type": "object"
@@ -1481,6 +1489,143 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/shop/marketplace/offers/{offerId}/detach_screenshot": {
+            "delete": {
+                "tags": [
+                    "Offers"
+                ],
+                "summary": "Detach screenshot",
+                "description": "Remove a screenshot from an offer by its URL. If all screenshots are removed from an account-type offer, the offer status will be automatically changed to Draft.",
+                "operationId": "b7f3b71f2036a11b1f47bac7d0eb79ca",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "description": "API response format",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json",
+                            "enum": [
+                                "application/json"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "offerId",
+                        "in": "path",
+                        "description": "ID of the offer to detach screenshot from",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 123849
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "screenshot_url"
+                                ],
+                                "properties": {
+                                    "screenshot_url": {
+                                        "description": "URL of the screenshot to remove",
+                                        "type": "string",
+                                        "example": "/storage/uploads/product_currency_offer/screenshot/550e8400-e29b-41d4-a716-446655440000.jpg"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "ok"
+                                        },
+                                        "screenshots": {
+                                            "description": "Remaining screenshots after removal",
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "example": "/storage/uploads/product_currency_offer/screenshot/example.jpg"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "screenshot_url": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "example": "The screenshot url field is required."
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not found"
                                         }
                                     },
                                     "type": "object"
