@@ -1,0 +1,99 @@
+# Creating Offers
+
+This guide walks you through the complete process of creating and publishing offers on the Skycoach Marketplace using the API.
+
+## Overview
+
+The offer creation workflow consists of three main stages:
+
+1. **Create offer in draft status** — All new offers are automatically saved as drafts
+2. **Add required images** — At least one image must be attached to the offer
+3. **Submit for review** — Move the offer from draft to review status using the dedicated endpoint
+
+<Warning>
+**Important:** All offers are automatically created in **draft** status. You cannot create an offer directly in any other status.
+</Warning>
+
+## Step 1: Create an Offer
+
+When you create a new offer via the API, it will automatically be saved with a **draft** status. This allows you to prepare your offer before submitting it for review.
+
+### API Reference
+
+For detailed endpoint documentation, request parameters, and response examples, see:
+
+[**Create or Edit Offer API Documentation**](https://api.skycoach.gg/docs/api-reference/offers/manage-offer-create-or-edit-with-automatic-status-determination)
+
+<Info>
+Notice that the `status` field is set to `"draft"` automatically. This is the default and only status available when creating a new offer.
+</Info>
+
+## Step 2: Add Images to Your Offer
+
+Before you can submit your offer for review, you **must** attach at least one image. Offers without images cannot be moved to review status.
+
+### Image Requirements
+
+- **Dimensions:** Recommended minimum 1920x1080 pixels
+- **Minimum:** At least 1 image is required
+- **Format:** JPEG, PNG, JPG
+- **Size:** Maximum 5MB per image
+
+### API Reference
+
+For detailed endpoint documentation on attaching screenshots to your offer, see:
+
+[**Attach Screenshot API Documentation**](https://api.skycoach.gg/docs/api-reference/offers/attach-screenshot)
+
+## Step 3: Submit Offer for Review
+
+Once your offer has at least one image attached, you can submit it for review. This changes the offer status from `draft` to `on_review`.
+
+### API Reference
+
+For detailed endpoint documentation on changing offer status, see:
+
+[**Edit Offer Status API Documentation**](https://api.skycoach.gg/docs/api-reference/offers/edit-offer-status)
+
+<Warning>
+**Validation Error:** If you attempt to submit an offer without images, you will receive an error:
+
+```json
+{
+  "success": false,
+  "error": "Cannot submit offer for review: at least one image is required"
+}
+```
+</Warning>
+
+## Complete Workflow
+
+The complete workflow for creating and publishing an offer:
+
+1. **Create the offer** using the [Create Offer API](https://api.skycoach.gg/docs/api-reference/offers/manage-offer-create-or-edit-with-automatic-status-determination) - it will be saved in `draft` status
+2. **Upload at least one image** to the offer
+3. **Change status to review** using the [Edit Offer Status API](https://api.skycoach.gg/docs/api-reference/offers/edit-offer-status)
+
+## Offer Status Flow
+
+Understanding the offer status lifecycle:
+
+```
+draft → on_review → approved → active
+                  ↓
+                rejected
+```
+
+- **draft**: Initial status when offer is created. You can edit and add images.
+- **on_review**: Offer is being reviewed by the Skycoach team.
+- **approved**: Offer has been approved and is ready to be activated.
+- **active**: Offer is live and visible to customers.
+- **rejected**: Offer was rejected during review. Check rejection reason and resubmit.
+
+## Next Steps
+
+- Learn how to [manage credentials](./api-reference/credentials) for your offers
+- Explore [offer management endpoints](./api-reference/offers) for updating and monitoring
+- Review [authentication setup](./get-api-token) if you haven't already
+
+---
