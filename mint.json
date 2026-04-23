@@ -1,10 +1,8 @@
 {
   "$schema": "https://mintlify.com/schema.json",
   "name": "SkyCoach API Documentation",
-  "noindex": true,
   
   "logo": "https://skycoach.gg/images/logos/rebranded/logo.svg",
-
   "favicon": "https://skycoach.gg/images/favicon/rebranded/1__192x192.png",
 
   "colors": {
@@ -59,9 +57,10 @@
       }
     }
   ],
+
   "seo": {
     "metatags": {
-      "robots": "noindex"
+      "robots": "noindex, nofollow"
     }
   }
 }
