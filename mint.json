@@ -57,5 +57,10 @@
         "dark": "#5A30FF"
       }
     }
-  ]
+  ],
+  "seo": {
+    "metatags": {
+      "robots": "noindex"
+    }
+  }
 }
