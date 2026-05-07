@@ -779,8 +779,8 @@
                                                         "example": 1
                                                     },
                                                     "guarantee_delivery_time": {
-                                                        "type": "string",
-                                                        "example": "24 hours"
+                                                        "type": "integer",
+                                                        "example": 86400000
                                                     },
                                                     "credential_system_type_id": {
                                                         "type": "integer",
@@ -2399,6 +2399,155 @@
                 ]
             }
         },
+        "/external_api/pro/offers/{offerId}/credentials/add_batch": {
+            "post": {
+                "tags": [
+                    "Offer Credentials"
+                ],
+                "summary": "Add credentials to existing ones (batch add)",
+                "description": "Adds new credentials to the offer without deleting existing ones. Automatically filters out duplicates based on login and email hashes.\n     *\n     **Credential system types:**\n     *\n     * - **1** (No Credentials): No credentials system - manual delivery via chat\n     * - **2** (Single): Single credential system - will auto-convert to MULTIPLE if adding more credentials\n     * - **3** (Multiple): Multiple credentials system - 1+ credentials, goes to NOT_ACTIVE when sold out\n     *\n     **Duplicate handling:**\n     * - Duplicates are automatically filtered out (not added)\n     * - Duplicates are detected by login_hash and email_hash\n     * - Response includes count of skipped duplicates",
+                "operationId": "f1c751c35e23466e80345d6c1e0f240a",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "description": "API response format",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json",
+                            "enum": [
+                                "application/json"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "offerId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 123
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "credentials"
+                                ],
+                                "properties": {
+                                    "credentials": {
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "login",
+                                                "game_password"
+                                            ],
+                                            "properties": {
+                                                "login": {
+                                                    "type": "string",
+                                                    "maxLength": 255,
+                                                    "example": "user@example.com"
+                                                },
+                                                "game_password": {
+                                                    "type": "string",
+                                                    "maxLength": 255,
+                                                    "example": "SecurePass123"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "format": "email",
+                                                    "nullable": true
+                                                },
+                                                "email_password": {
+                                                    "type": "string",
+                                                    "nullable": true
+                                                },
+                                                "is_2fa_active": {
+                                                    "type": "boolean",
+                                                    "nullable": true
+                                                },
+                                                "comment": {
+                                                    "type": "string",
+                                                    "maxLength": 1000,
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "maxItems": 1000,
+                                        "minItems": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Successfully added 8 credentials. 2 duplicates were skipped."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error"
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden - offer is transferred or user has no access",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cannot modify credentials for transferred offer"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/shop/marketplace/offers/{offerId}/credentials/replace_all": {
             "put": {
                 "tags": [
@@ -2763,9 +2912,10 @@
                         "minItems": 1
                     },
                     "guarantee_delivery_time": {
-                        "description": "Guaranteed delivery time (e.g., '1 hour', '24 hours', '3 days')",
-                        "type": "string",
-                        "example": "1"
+                        "description": "Guaranteed delivery time in milliseconds (e.g., 86400000 for 24 hours)",
+                        "type": "integer",
+                        "minimum": 1,
+                        "example": 86400000
                     }
                 },
                 "type": "object"
@@ -2971,10 +3121,10 @@
                         "minItems": 1
                     },
                     "guarantee_delivery_time": {
-                        "description": "Guaranteed delivery time (e.g., '1 hour', '24 hours', '3 days')",
-                        "type": "string",
-                        "maxLength": 255,
-                        "example": "1"
+                        "description": "Guaranteed delivery time in milliseconds (e.g., 86400000 for 24 hours)",
+                        "type": "integer",
+                        "minimum": 1,
+                        "example": 86400000
                     }
                 },
                 "type": "object"
@@ -3168,10 +3318,10 @@
                         }
                     },
                     "guarantee_delivery_time": {
-                        "description": "Guaranteed delivery time (e.g., '1 hour', '24 hours', '3 days')",
-                        "type": "string",
-                        "maxLength": 255,
-                        "example": "1"
+                        "description": "Guaranteed delivery time in milliseconds (e.g., 86400000 for 24 hours)",
+                        "type": "integer",
+                        "minimum": 1,
+                        "example": 86400000
                     }
                 },
                 "type": "object"
