@@ -2865,7 +2865,7 @@
                                     "example": 2
                                 },
                                 "screenshots": {
-                                    "description": "Array of screenshot URLs. Screenshots must be uploaded first using POST /shop/marketplace/offers/upload_screenshot (multipart/form-data) or POST /shop/marketplace/offers/upload_screenshots_from_links (for Imgur links). The returned URLs should be included in this array.",
+                                    "description": "Array of screenshot URLs. Screenshots must be uploaded first using POST /shop/marketplace/offers/upload_screenshot (multipart/form-data). The returned URLs should be included in this array.",
                                     "type": "array",
                                     "items": {
                                         "type": "string",
@@ -2991,7 +2991,7 @@
                                     "example": 2
                                 },
                                 "screenshots": {
-                                    "description": "Array of screenshot URLs. Screenshots must be uploaded first using POST /shop/marketplace/offers/upload_screenshot (multipart/form-data) or POST /shop/marketplace/offers/upload_screenshots_from_links (for Imgur links). The returned URLs should be included in this array.",
+                                    "description": "Array of screenshot URLs. Screenshots must be uploaded first using POST /shop/marketplace/offers/upload_screenshot (multipart/form-data). The returned URLs should be included in this array.",
                                     "type": "array",
                                     "items": {
                                         "type": "string",
@@ -3189,7 +3189,7 @@
                                     "example": 2
                                 },
                                 "screenshots": {
-                                    "description": "Array of screenshot URLs. Screenshots must be uploaded first using POST /shop/marketplace/offers/upload_screenshot (multipart/form-data) or POST /shop/marketplace/offers/upload_screenshots_from_links (for Imgur links). The returned URLs should be included in this array.",
+                                    "description": "Array of screenshot URLs. Screenshots must be uploaded first using POST /shop/marketplace/offers/upload_screenshot (multipart/form-data). The returned URLs should be included in this array.",
                                     "type": "array",
                                     "items": {
                                         "type": "string",
