@@ -644,7 +644,7 @@
                     {
                         "name": "with_product_id",
                         "in": "query",
-                        "description": "Filter offers by product ID.",
+                        "description": "Filter offers by product currency setting ID (product_currency_setting_id).",
                         "required": false,
                         "schema": {
                             "type": "integer"
@@ -735,7 +735,7 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "result": {
+                                        "data": {
                                             "description": "Array of offers",
                                             "type": "array",
                                             "items": {
@@ -2822,7 +2822,7 @@
                                     "example": 1
                                 },
                                 "data": {
-                                    "description": "Offer data object. Structure depends on product currency setting fields. Contains field values selected by the seller.\n     *\n     **For Gold marketplace (marketplace_type = 1):**\n     * - Required field\n     *\n     **For Account marketplace (marketplace_type = 2):**\n     * - Optional field (nullable)\n     *\n     **To get the structure of this object:**\n     *\n     * 1. Get product details: GET /shop/marketplace/products/{productId}\n     * 2. Check the product_fields array in the response\n     * 3. Each field has:\n     * - id - field ID (use as key in data object)\n     * - title - field name\n     * - is_required - whether field is required\n     * - component_edit - field type (1=text, 2=select, etc.)\n     * - field_values - available values for select fields\n     *\n     **Example data structure:**\n     * - Key: field ID (from product_fields)\n     * - Value:\n     * - For select fields (single choice): use value ID from field_values\n     * - For select fields (multiple choice): use array of value IDs [id1, id2, id3]\n     * - For text fields: use actual text value\n     * - For number fields: use numeric value\n     *\n     **Real example for Account marketplace:**\n     * - Field 80 (multiple select): array of value IDs [2819, 2820, 2818, 2821, 2822, 2823]\n     * - Field 81 (text): string value Battle Royale\n     * - Field 82 (number): numeric value 123\n     * - Field 201 (number): numeric value 10\n     *\n     **Note:** Get the product details first to see which fields are required and what values are available.",
+                                    "description": "Offer data object. Structure depends on product currency setting fields. Contains field values selected by the seller.\n     *\n     **For Gold marketplace (marketplace_type = 1):**\n     * - Required field\n     *\n     **For Account marketplace (marketplace_type = 2):**\n     * - Optional field (nullable)\n     *\n     **To get the structure of this object:**\n     *\n     * 1. Get product details: GET /shop/marketplace/products/{productId}\n     * 2. Check the product_fields array in the response\n     * 3. Each field has:\n     * - id - field ID (use as key in data object)\n     * - title - field name\n     * - is_required - whether field is required\n     * - component_edit - field type (1=text, 2=select, etc.)\n     * - field_values - available values for select fields\n     *\n     **Example data structure:**\n     * - Key: field ID (from product_fields)\n     * - Value:\n     * - For select fields (single choice): use value string from field_values (e.g. Grandmaster, not the ID)\n     * - For select fields (multiple choice): use array of value strings\n     * - For text fields: use actual text value\n     * - For number fields: use numeric value\n     *\n     **Real example for Account marketplace:**\n     * - Field 80 (multiple select): array of value strings\n     * - Field 81 (text): string value Battle Royale\n     * - Field 82 (number): numeric value 123\n     * - Field 201 (number): numeric value 10\n     *\n     **Note:** Get the product details first to see which fields are required and what values are available.",
                                     "type": "object",
                                     "example": {
                                         "1": "5",
@@ -2973,7 +2973,7 @@
                                     "$ref": "#/components/schemas/OfferStatus"
                                 },
                                 "data": {
-                                    "description": "Offer data object. Structure depends on product currency setting fields. Contains field values selected by the seller.\n     *\n     **To get the structure of this object:**\n     *\n     * 1. Get product details: GET /shop/marketplace/products/{productId}\n     * 2. Check the product_fields array in the response\n     * 3. Each field has:\n     * - id - field ID (use as key in data object)\n     * - title - field name\n     * - is_required - whether field is required\n     * - component_edit - field type (1=text, 2=select, etc.)\n     * - field_values - available values for select fields\n     *\n     **Example data structure:**\n     * - Key: field ID (from product_fields)\n     * - Value: for select fields use value ID from field_values, for text fields use actual text value\n     *\n     **Note:** Get the product details first to see which fields are required and what values are available.",
+                                    "description": "Offer data object. Structure depends on product currency setting fields. Contains field values selected by the seller.\n     *\n     **To get the structure of this object:**\n     *\n     * 1. Get product details: GET /shop/marketplace/products/{productId}\n     * 2. Check the product_fields array in the response\n     * 3. Each field has:\n     * - id - field ID (use as key in data object)\n     * - title - field name\n     * - is_required - whether field is required\n     * - component_edit - field type (1=text, 2=select, etc.)\n     * - field_values - available values for select fields\n     *\n     **Example data structure:**\n     * - Key: field ID (from product_fields)\n     * - Value: for select fields use value string from field_values (e.g. Grandmaster, not the ID), for text fields use actual text value\n     *\n     **Note:** Get the product details first to see which fields are required and what values are available.",
                                     "type": "object",
                                     "example": {
                                         "1": "5",
@@ -3171,10 +3171,9 @@
                                     "example": 1
                                 },
                                 "data": {
-                                    "description": "Offer data object. Structure depends on product currency setting fields. Contains field values selected by the seller. All required fields must be provided and validated.\n     *\n     **To get the structure of this object:**\n     *\n     * 1. Get product details: GET /shop/marketplace/products/{productId}\n     * 2. Check the product_fields array in the response\n     * 3. Each field has:\n     * - id - field ID (use as key in data object)\n     * - title - field name\n     * - is_required - whether field is required\n     * - component_edit - field type (1=text, 2=select, etc.)\n     * - field_values - available values for select fields\n     *\n     **Example data structure:**\n     * - Key: field ID (from product_fields)\n     * - Value: for select fields use value ID from field_values, for text fields use actual text value\n     *\n     **Note:** Get the product details first to see which fields are required and what values are available.",
+                                    "description": "Offer data object. Structure depends on product currency setting fields. Contains field values selected by the seller. All required fields must be provided and validated.\n     *\n     **To get the structure of this object:**\n     *\n     * 1. Get product details: GET /shop/marketplace/products/{productId}\n     * 2. Check the product_fields array in the response\n     * 3. Each field has:\n     * - id - field ID (use as key in data object)\n     * - title - field name\n     * - is_required - whether field is required\n     * - component_edit - field type (1=text, 2=select, etc.)\n     * - field_values - available values for select fields\n     *\n     **Example data structure:**\n     * - Key: field ID (from product_fields)\n     * - Value: for select fields use value string from field_values (e.g. Grandmaster, not the ID), for text fields use actual text value\n     *\n     **Note:** Get the product details first to see which fields are required and what values are available.",
                                     "type": "object",
                                     "example": {
-                                        "80": "2819,2820,2818",
                                         "81": "Battle Royale",
                                         "82": 123
                                     }
