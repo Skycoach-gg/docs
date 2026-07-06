@@ -1275,6 +1275,37 @@
                                 }
                             }
                         }
+                    },
+                    "429": {
+                        "description": "Rate limit exceeded. Maximum 100 offers per request and 200 offers per minute per user.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Rate limit exceeded: max 200 offers per minute."
+                                        },
+                                        "budget_used": {
+                                            "description": "Number of offers already processed in the current minute window",
+                                            "type": "integer",
+                                            "example": 180
+                                        },
+                                        "budget_limit": {
+                                            "description": "Maximum offers allowed per minute",
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "offers_requested": {
+                                            "description": "Number of offers in the rejected request",
+                                            "type": "integer",
+                                            "example": 50
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 },
                 "security": [
@@ -3136,7 +3167,7 @@
                 ],
                 "properties": {
                     "offers": {
-                        "description": "Array of offers to create or update. If an offer object contains 'id', it will be updated. If 'id' is missing, a new offer will be created.",
+                        "description": "Array of offers to create or update. If an offer object contains 'id', it will be updated. If 'id' is missing, a new offer will be created. Maximum 100 offers per request.",
                         "type": "array",
                         "items": {
                             "properties": {
@@ -3314,7 +3345,9 @@
                                 }
                             },
                             "type": "object"
-                        }
+                        },
+                        "maxItems": 100,
+                        "minItems": 1
                     },
                     "guarantee_delivery_time": {
                         "description": "Guaranteed delivery time in milliseconds (e.g., 86400000 for 24 hours)",
