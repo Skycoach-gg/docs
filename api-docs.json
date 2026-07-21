@@ -1676,10 +1676,10 @@
         "/api/shop/marketplace/offers/{offerId}/attach_screenshots": {
             "post": {
                 "tags": [
-                    "Offer Screenshots"
+                    "Offers"
                 ],
                 "summary": "Bulk attach screenshots to offer",
-                "description": "Upload up to 20 screenshot files at once and attach them to the offer. The URLs are returned immediately and attached to the offer, but the images may take a short time to become accessible.\n     *\n     **Limit:** Total screenshots per offer is capped at `screenshots_max_count` (default 30). The request is rejected if attaching the files would exceed the limit.\n     *\n     **Rate limit:** 300 requests/min (shared pool with attach_screenshots_from_links).",
+                "description": "Upload up to 20 screenshot files at once and attach them to the offer. The URLs are returned immediately and attached to the offer, but the images may take a short time to become accessible.\n     *\n     **Limit:** Total screenshots per offer is capped at `screenshots_max_count` (default 20). The request is rejected if attaching the files would exceed the limit.\n     *\n     **Rate limit:** 300 requests/min (shared pool with attach_screenshots_from_links).",
                 "operationId": "70afe75afcb35ecbd71f225cc18326b1",
                 "parameters": [
                     {
@@ -1781,10 +1781,10 @@
         "/api/shop/marketplace/offers/{offerId}/attach_screenshots_from_links": {
             "post": {
                 "tags": [
-                    "Offer Screenshots"
+                    "Offers"
                 ],
                 "summary": "Attach screenshots to offer from external URLs",
-                "description": "Download images from a list of external URLs and attach them to the offer. Successfully downloaded URLs are attached to the offer immediately; failed ones are returned in the `failed` array. Attached images may take a short time to become accessible.\n     *\n     **Access restriction:** This endpoint is available by request only. To add your file hosting domain to the allowed list, please contact support.\n     *\n     **Limit:** Total screenshots per offer is capped at `screenshots_max_count` (default 30).\n     *\n     **Rate limit:** 300 requests/min (shared pool with attach_screenshots).",
+                "description": "Download images from a list of external URLs and attach them to the offer. Successfully downloaded URLs are attached to the offer immediately; failed ones are returned in the `failed` array. Attached images may take a short time to become accessible.\n     *\n     **Access restriction:** This endpoint is available by request only. To add your file hosting domain to the allowed list, please contact support.\n     *\n     **Limit:** Total screenshots per offer is capped at `screenshots_max_count` (default 20).\n     *\n     **Rate limit:** 300 requests/min (shared pool with attach_screenshots).",
                 "operationId": "0536c76c13cc9ca92eea06a250075022",
                 "parameters": [
                     {
@@ -3603,10 +3603,6 @@
         {
             "name": "Offers",
             "description": "Offers"
-        },
-        {
-            "name": "Offer Screenshots",
-            "description": "Offer Screenshots"
         },
         {
             "name": "Offer Credentials",
