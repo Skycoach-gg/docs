@@ -783,8 +783,9 @@
                                                         "example": 86400000
                                                     },
                                                     "credential_system_type_id": {
+                                                        "description": "Authoritative delivery-mode field. Values: 1 = No Credentials (stock-mode, seller-managed amount), 2 = Single (deprecated — coerced to MULTIPLE on write), 3 = Multiple (credential-mode, amount derived from active credentials). Defaults to 3 on create.",
                                                         "type": "integer",
-                                                        "example": 2,
+                                                        "example": 3,
                                                         "nullable": true
                                                     },
                                                     "description": {
@@ -1672,13 +1673,226 @@
                 ]
             }
         },
+        "/api/shop/marketplace/offers/{offerId}/attach_screenshots": {
+            "post": {
+                "tags": [
+                    "Offer Screenshots"
+                ],
+                "summary": "Bulk attach screenshots to offer",
+                "description": "Upload up to 20 screenshot files at once and attach them to the offer. The URLs are returned immediately and attached to the offer, but the images may take a short time to become accessible.\n     *\n     **Limit:** Total screenshots per offer is capped at `screenshots_max_count` (default 30). The request is rejected if attaching the files would exceed the limit.\n     *\n     **Rate limit:** 300 requests/min (shared pool with attach_screenshots_from_links).",
+                "operationId": "70afe75afcb35ecbd71f225cc18326b1",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json",
+                            "enum": [
+                                "application/json"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "offerId",
+                        "in": "path",
+                        "description": "ID of the offer to attach screenshots to",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 123849
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "files"
+                                ],
+                                "properties": {
+                                    "files": {
+                                        "description": "Array of image files (1–20). Supported formats: jpeg, png, jpg",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "binary"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success. Screenshots attached to the offer; images will appear on S3 shortly.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "screenshots": {
+                                            "description": "All current screenshots on the offer after the operation",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "uri": {
+                                                        "description": "Public S3 URL of the screenshot",
+                                                        "type": "string",
+                                                        "example": "https://s3-marketplace.skycoach.gg/uploads/product_currency_offer/screenshot/550e8400-e29b-41d4-a716-446655440000.jpg"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error — files missing, wrong format, too many files, or screenshot limit exceeded"
+                    },
+                    "403": {
+                        "description": "Forbidden — caller does not own the offer"
+                    },
+                    "404": {
+                        "description": "Offer not found"
+                    },
+                    "429": {
+                        "description": "Rate limit exceeded"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/shop/marketplace/offers/{offerId}/attach_screenshots_from_links": {
+            "post": {
+                "tags": [
+                    "Offer Screenshots"
+                ],
+                "summary": "Attach screenshots to offer from external URLs",
+                "description": "Download images from a list of external URLs and attach them to the offer. Successfully downloaded URLs are attached to the offer immediately; failed ones are returned in the `failed` array. Attached images may take a short time to become accessible.\n     *\n     **Access restriction:** This endpoint is available by request only. To add your file hosting domain to the allowed list, please contact support.\n     *\n     **Limit:** Total screenshots per offer is capped at `screenshots_max_count` (default 30).\n     *\n     **Rate limit:** 300 requests/min (shared pool with attach_screenshots).",
+                "operationId": "0536c76c13cc9ca92eea06a250075022",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json",
+                            "enum": [
+                                "application/json"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "offerId",
+                        "in": "path",
+                        "description": "ID of the offer to attach screenshots to",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 123849
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "urls"
+                                ],
+                                "properties": {
+                                    "urls": {
+                                        "description": "List of public image URLs to download and attach (1–10 items). Only domains pre-approved for your account are accepted.",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "uri",
+                                            "example": "https://files.example.com/screenshot.jpg"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Processing complete. Check `uploaded` and `failed` arrays for per-URL results.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "uploaded": {
+                                            "description": "S3 URLs of successfully processed screenshots",
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "example": "https://s3-marketplace.skycoach.gg/uploads/product_currency_offer/screenshot/550e8400-e29b-41d4-a716-446655440000.jpg"
+                                            }
+                                        },
+                                        "failed": {
+                                            "description": "Original URLs that could not be downloaded or processed (HTTP error, unsupported format, file too large, etc.)",
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "example": "https://files.example.com/broken.jpg"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error — invalid URL, domain not in allowed list, or screenshot limit exceeded"
+                    },
+                    "403": {
+                        "description": "Forbidden — caller does not own the offer"
+                    },
+                    "404": {
+                        "description": "Offer not found"
+                    },
+                    "429": {
+                        "description": "Rate limit exceeded"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/shop/marketplace/offers/{offerId}/credentials": {
             "get": {
                 "tags": [
                     "Offer Credentials"
                 ],
                 "summary": "Get list of credentials for offer",
-                "description": "Available only for offers with credential_system_type_id = 2 (Single) or 3 (Multiple).\n     *\n     **Credential system types:**\n     *\n     * - **1** (No Credentials): No credentials system - manual delivery via chat\n     * - **2** (Single): Single credential system - max 1 credential, goes to SOLD when purchased\n     * - **3** (Multiple): Multiple credentials system - 1+ credentials, goes to NOT_ACTIVE when sold out",
+                "description": "Available only for offers with `credential_system_type_id = 3` (MULTIPLE / credential-mode).\n     *\n     * `credential_system_type_id` is the authoritative delivery-mode field. Values: 1 = No Credentials (manual delivery via chat),\n     * 2 = Single (deprecated — coerced to MULTIPLE on write), 3 = Multiple.",
                 "operationId": "95103829519d7741423f2c5085891ff7",
                 "parameters": [
                     {
@@ -1872,7 +2086,7 @@
                     "Offer Credentials"
                 ],
                 "summary": "Create new credential",
-                "description": "Available only for offers with credential_system_type_id = 2 (Single) or 3 (Multiple).\n     *\n     **Credential system types:**\n     *\n     * - **1** (No Credentials): No credentials system - manual delivery via chat\n     * - **2** (Single): Single credential system - max 1 credential, goes to SOLD when purchased\n     * - **3** (Multiple): Multiple credentials system - 1+ credentials, goes to NOT_ACTIVE when sold out",
+                "description": "Available only for offers with `credential_system_type_id = 3` (MULTIPLE / credential-mode).\n     *\n     * `credential_system_type_id` is the authoritative delivery-mode field. Values: 1 = No Credentials (manual delivery via chat),\n     * 2 = Single (deprecated — coerced to MULTIPLE on write), 3 = Multiple.",
                 "operationId": "d11bebea11d9d526b3136b0ab04f6f02",
                 "parameters": [
                     {
@@ -2026,7 +2240,7 @@
                     "Offer Credentials"
                 ],
                 "summary": "Show credential",
-                "description": "Available only for offers with credential_system_type_id = 2 (Single) or 3 (Multiple).\n     *\n     **Credential system types:**\n     *\n     * - **1** (No Credentials): No credentials system - manual delivery via chat\n     * - **2** (Single): Single credential system - max 1 credential, goes to SOLD when purchased\n     * - **3** (Multiple): Multiple credentials system - 1+ credentials, goes to NOT_ACTIVE when sold out",
+                "description": "Available only for offers with `credential_system_type_id = 3` (MULTIPLE / credential-mode).\n     *\n     * `credential_system_type_id` is the authoritative delivery-mode field. Values: 1 = No Credentials (manual delivery via chat),\n     * 2 = Single (deprecated — coerced to MULTIPLE on write), 3 = Multiple.",
                 "operationId": "8b2caa7925b5156dc882335ccfcb2b6f",
                 "parameters": [
                     {
@@ -2178,7 +2392,7 @@
                     "Offer Credentials"
                 ],
                 "summary": "Update credential",
-                "description": "Available only for offers with credential_system_type_id = 2 (Single) or 3 (Multiple).\n     *\n     **Credential system types:**\n     *\n     * - **1** (No Credentials): No credentials system - manual delivery via chat\n     * - **2** (Single): Single credential system - max 1 credential, goes to SOLD when purchased\n     * - **3** (Multiple): Multiple credentials system - 1+ credentials, goes to NOT_ACTIVE when sold out",
+                "description": "Available only for offers with `credential_system_type_id = 3` (MULTIPLE / credential-mode).\n     *\n     * `credential_system_type_id` is the authoritative delivery-mode field. Values: 1 = No Credentials (manual delivery via chat),\n     * 2 = Single (deprecated — coerced to MULTIPLE on write), 3 = Multiple.",
                 "operationId": "b64831d806972f98fa011143f8eb290f",
                 "parameters": [
                     {
@@ -2335,7 +2549,7 @@
                     "Offer Credentials"
                 ],
                 "summary": "Delete credential",
-                "description": "Available only for offers with credential_system_type_id = 2 (Single) or 3 (Multiple).\n     *\n     **Credential system types:**\n     *\n     * - **1** (No Credentials): No credentials system - manual delivery via chat\n     * - **2** (Single): Single credential system - max 1 credential, goes to SOLD when purchased\n     * - **3** (Multiple): Multiple credentials system - 1+ credentials, goes to NOT_ACTIVE when sold out",
+                "description": "Available only for offers with `credential_system_type_id = 3` (MULTIPLE / credential-mode).\n     *\n     * `credential_system_type_id` is the authoritative delivery-mode field. Values: 1 = No Credentials (manual delivery via chat),\n     * 2 = Single (deprecated — coerced to MULTIPLE on write), 3 = Multiple.",
                 "operationId": "b8c27c5594e84c75fd65d676ba3f64eb",
                 "parameters": [
                     {
@@ -2436,7 +2650,7 @@
                     "Offer Credentials"
                 ],
                 "summary": "Add credentials to existing ones (batch add)",
-                "description": "Adds new credentials to the offer without deleting existing ones. Automatically filters out duplicates based on login and email hashes.\n     *\n     **Credential system types:**\n     *\n     * - **1** (No Credentials): No credentials system - manual delivery via chat\n     * - **2** (Single): Single credential system - will auto-convert to MULTIPLE if adding more credentials\n     * - **3** (Multiple): Multiple credentials system - 1+ credentials, goes to NOT_ACTIVE when sold out\n     *\n     **Duplicate handling:**\n     * - Duplicates are automatically filtered out (not added)\n     * - Duplicates are detected by login_hash and email_hash\n     * - Response includes count of skipped duplicates",
+                "description": "Adds new credentials to the offer without deleting existing ones. Automatically filters out duplicates based on login and email hashes.\n     *\n     **Credential system types:**\n     *\n     * - **1** (No Credentials): No credentials system - manual delivery via chat\n     * - **3** (Multiple): Multiple credentials system - 1+ credentials, goes to NOT_ACTIVE when sold out\n     *\n     **Duplicate handling:**\n     * - Duplicates are automatically filtered out (not added)\n     * - Duplicates are detected by login_hash and email_hash\n     * - Response includes count of skipped duplicates",
                 "operationId": "f1c751c35e23466e80345d6c1e0f240a",
                 "parameters": [
                     {
@@ -2585,7 +2799,7 @@
                     "Offer Credentials"
                 ],
                 "summary": "Replace all credentials (batch replace)",
-                "description": "Available only for offers with credential_system_type_id = 2 (Single) or 3 (Multiple).\n     *\n     **Credential system types:**\n     *\n     * - **1** (No Credentials): No credentials system - manual delivery via chat\n     * - **2** (Single): Single credential system - max 1 credential, goes to SOLD when purchased\n     * - **3** (Multiple): Multiple credentials system - 1+ credentials, goes to NOT_ACTIVE when sold out",
+                "description": "Available only for offers with `credential_system_type_id = 3` (MULTIPLE / credential-mode).\n     *\n     * `credential_system_type_id` is the authoritative delivery-mode field. Values: 1 = No Credentials (manual delivery via chat),\n     * 2 = Single (deprecated — coerced to MULTIPLE on write), 3 = Multiple.",
                 "operationId": "b1854f7f6d5bd1b64cebd90319e8f523",
                 "parameters": [
                     {
@@ -2863,14 +3077,14 @@
                                     "nullable": true
                                 },
                                 "credential_system_type_id": {
-                                    "description": "Credential system type ID (for account marketplace).\n     *\n     **Possible values:**\n     * - **1** (No Credentials): No credentials system - manual delivery via chat\n     * - **2** (Single Credential): Single credential system - max 1 credential, goes to SOLD when purchased\n     * - **3** (Multiple Credentials): Multiple credentials system - 1+ credentials, goes to NOT_ACTIVE when sold out",
+                                    "description": "Authoritative delivery-mode field.\n     *\n     **Values:**\n     * - **1** (No Credentials): stock-mode, seller-managed amount, manual delivery via chat\n     * - **2** (Single, deprecated): coerced to MULTIPLE on write\n     * - **3** (Multiple): credential-mode, amount derived from active credentials\n     *\n     * Defaults to `3` (MULTIPLE) on create when omitted.",
                                     "type": "integer",
                                     "enum": [
                                         1,
                                         2,
                                         3
                                     ],
-                                    "example": 2,
+                                    "example": 3,
                                     "nullable": true
                                 },
                                 "search_description": {
@@ -3064,7 +3278,7 @@
                                     "nullable": true
                                 },
                                 "credential_system_type_id": {
-                                    "description": "Credential system type (for account marketplace only).\n     *\n     **Possible values:**\n     * - **1** (No Credentials): No credentials system - manual delivery via chat\n     * - **2** (Single): Single credential system - max 1 credential, goes to SOLD when purchased\n     * - **3** (Multiple): Multiple credentials system - 1+ credentials, goes to NOT_ACTIVE when sold out",
+                                    "description": "Authoritative delivery-mode field. 1 = No Credentials (stock-mode), 2 = Single (deprecated — coerced to MULTIPLE on write), 3 = Multiple (credential-mode). Defaults to 3 on create.",
                                     "type": "integer",
                                     "enum": [
                                         1,
@@ -3261,7 +3475,7 @@
                                     "nullable": true
                                 },
                                 "credential_system_type_id": {
-                                    "description": "Credential system type (for account marketplace only).\n     *\n     **Possible values:**\n     * - **1** (No Credentials): No credentials system - manual delivery via chat\n     * - **2** (Single): Single credential system - max 1 credential, goes to SOLD when purchased\n     * - **3** (Multiple): Multiple credentials system - 1+ credentials, goes to NOT_ACTIVE when sold out",
+                                    "description": "Authoritative delivery-mode field. 1 = No Credentials (stock-mode), 2 = Single (deprecated — coerced to MULTIPLE on write), 3 = Multiple (credential-mode). Defaults to 3 on create.",
                                     "type": "integer",
                                     "enum": [
                                         1,
@@ -3389,6 +3603,10 @@
         {
             "name": "Offers",
             "description": "Offers"
+        },
+        {
+            "name": "Offer Screenshots",
+            "description": "Offer Screenshots"
         },
         {
             "name": "Offer Credentials",
