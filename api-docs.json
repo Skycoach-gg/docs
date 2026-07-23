@@ -1977,17 +1977,9 @@
                                                         "type": "string",
                                                         "example": "user@example.com"
                                                     },
-                                                    "game_password": {
-                                                        "type": "string",
-                                                        "example": "SecurePass123"
-                                                    },
                                                     "email": {
                                                         "type": "string",
                                                         "example": "user@example.com"
-                                                    },
-                                                    "email_password": {
-                                                        "type": "string",
-                                                        "example": "EmailPass123"
                                                     },
                                                     "is_2fa_active": {
                                                         "type": "boolean",
@@ -2295,18 +2287,6 @@
                                                 "email": {
                                                     "type": "string",
                                                     "example": "user@example.com"
-                                                },
-                                                "game_password": {
-                                                    "type": "string",
-                                                    "example": "SecurePass123"
-                                                },
-                                                "password": {
-                                                    "type": "string",
-                                                    "example": ""
-                                                },
-                                                "email_password": {
-                                                    "type": "string",
-                                                    "example": "EmailPass123"
                                                 },
                                                 "is_2fa_active": {
                                                     "type": "boolean",
