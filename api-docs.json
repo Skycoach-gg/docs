@@ -1920,21 +1920,27 @@
                     {
                         "name": "status",
                         "in": "query",
-                        "description": "Filter by credential status.\n     *\n     **Possible values:**\n     *\n     * - **1** (Active): Credential is active and available for sale\n     * - **2** (Sold): Credential was sold",
+                        "description": "Filter by credential status. Omitted or `all` returns both active and sold credentials.\n     *\n     **Possible values:**\n     *\n     * - **active**: Credential is active and available for sale\n     * - **sold**: Credential was sold (stays available via the API after the sale)\n     * - **all** (default): No filtering\n     *\n     * Legacy numeric values are still accepted: `1` = `active`, `2` = `sold`.",
                         "schema": {
-                            "type": "integer",
+                            "type": "string",
+                            "default": "all",
                             "enum": [
-                                1,
-                                2
+                                "all",
+                                "active",
+                                "sold"
                             ],
-                            "example": 1
+                            "example": "sold"
                         }
                     },
                     {
-                        "name": "per_page",
+                        "name": "perPage",
                         "in": "query",
+                        "description": "Page size, max 100. The legacy `per_page` alias is still accepted.",
                         "schema": {
                             "type": "integer",
+                            "default": 20,
+                            "maximum": 100,
+                            "minimum": 1,
                             "example": 20
                         }
                     },
