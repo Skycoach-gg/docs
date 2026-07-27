@@ -711,7 +711,7 @@
                     {
                         "name": "with_status",
                         "in": "query",
-                        "description": "Filter by offer status.\n     *\n     **Possible values:**\n     *\n     * - **1** (Draft): Offer is saved as draft and not visible to others\n     * - **2** (Active): Offer is active and visible to customers\n     * - **3** (Not Active): Offer is not active and not visible to customers\n     * - **4** (Need Details): Offer has not passed the review and needs additional details\n     * - **5** (On Review): Offer is under review\n     * - **6** (Sold): There is an order for this offer\n     * - **7** (Transfered): The order for this offer has been completed\n     * - **8** (Review Passed): Offer has passed the review and waiting for activation",
+                        "description": "Filter by offer status.\n     *\n     **Possible values:**\n     *\n     * - **1** (Draft): Offer is saved as draft and not visible to others\n     * - **2** (Active): Offer is active and visible to customers\n     * - **3** (Not Active): Offer is not active and not visible to customers\n     * - **4** (Need Details): Offer has not passed the review and needs additional details\n     * - **5** (On Review): Offer is under review\n     * - **6** (Sold): Offer has been sold or the order has been completed\n     * - **8** (Review Passed): Offer has passed the review and waiting for activation",
                         "schema": {
                             "type": "integer",
                             "enum": [
@@ -721,7 +721,6 @@
                                 4,
                                 5,
                                 6,
-                                7,
                                 8
                             ],
                             "example": 3
@@ -2941,7 +2940,7 @@
     "components": {
         "schemas": {
             "OfferStatus": {
-                "description": "Offer status enum.\n     *\n     **Possible values:**\n     *\n     * - **1** (Draft): Offer is saved as draft and not visible to others\n     * - **2** (Active): Offer is active and visible to customers\n     * - **3** (Not Active): Offer is not active and not visible to customers\n     * - **4** (Need Details): Offer has not passed the review and needs additional details\n     * - **5** (On Review): Offer is under review\n     * - **6** (Sold): There is an order for this offer\n     * - **7** (Transfered): The order for this offer has been completed\n     * - **8** (Review Passed): Offer has passed the review and waiting for activation",
+                "description": "Offer status enum.\n     *\n     **Possible values:**\n     *\n     * - **1** (Draft): Offer is saved as draft and not visible to others\n     * - **2** (Active): Offer is active and visible to customers\n     * - **3** (Not Active): Offer is not active and not visible to customers\n     * - **4** (Need Details): Offer has not passed the review and needs additional details\n     * - **5** (On Review): Offer is under review\n     * - **6** (Sold): Offer has been sold or the order has been completed\n     * - **8** (Review Passed): Offer has passed the review and waiting for activation",
                 "type": "integer",
                 "enum": [
                     1,
@@ -2950,7 +2949,6 @@
                     4,
                     5,
                     6,
-                    7,
                     8
                 ],
                 "example": 3
