@@ -711,7 +711,7 @@
                     {
                         "name": "with_status",
                         "in": "query",
-                        "description": "Filter by offer status.\n     *\n     **Possible values:**\n     *\n     * - **1** (Draft): Offer is saved as draft and not visible to others\n     * - **2** (Active): Offer is active and visible to customers\n     * - **3** (Not Active): Offer is not active and not visible to customers\n     * - **4** (Need Details): Offer has not passed the review and needs additional details\n     * - **5** (On Review): Offer is under review\n     * - **6** (Sold): Offer has been sold or the order has been completed\n     * - **8** (Review Passed): Offer has passed the review and waiting for activation",
+                        "description": "Filter by offer status.\n     *\n     **Possible values:**\n     *\n     * - **1** (Draft): Offer is saved as draft and not visible to others\n     * - **2** (Active): Offer is active and visible to customers\n     * - **3** (Not Active): Offer is not active and not visible to customers\n     * - **4** (Need Details): Offer has not passed the review and needs additional details\n     * - **5** (On Review): Offer is under review\n     * - **6** (Sold): There is an order for this offer\n     * - **7** (Transfered): The order for this offer has been completed\n     * - **8** (Review Passed): Offer has passed the review and waiting for activation",
                         "schema": {
                             "type": "integer",
                             "enum": [
@@ -721,6 +721,7 @@
                                 4,
                                 5,
                                 6,
+                                7,
                                 8
                             ],
                             "example": 3
@@ -2935,12 +2936,690 @@
                     }
                 ]
             }
+        },
+        "/api/shop/marketplace/offers/{offer}/discount": {
+            "put": {
+                "tags": [
+                    "Offer Discount"
+                ],
+                "summary": "Set or remove discount on offer",
+                "description": "Sets a seller discount on the offer. If the offer and its price are older than 14 days, the discount is applied immediately. Otherwise it goes into pending state and will be applied automatically by cron once eligible.\n     *\n     * Passing `discount_percent = 0` removes both pending and applied (seller_lk) discounts. Admin-set discounts are not affected.",
+                "operationId": "4774fea3b16ab71720a7e7b93d99549c",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "description": "API response format",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json",
+                            "enum": [
+                                "application/json"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "offer",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 123
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "discount_percent"
+                                ],
+                                "properties": {
+                                    "discount_percent": {
+                                        "description": "Discount percentage. 0 = remove discount.",
+                                        "type": "integer",
+                                        "maximum": 40,
+                                        "minimum": 0,
+                                        "example": 20
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "applied": {
+                                            "description": "true if discount was applied immediately, false if pending or removed",
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "discount_eligible_at": {
+                                            "description": "When pending discount will be applied. null if applied immediately or no pending discount.",
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2026-08-04T00:00:00+00:00",
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Offer not found or does not belong to authenticated user",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The discount percent field must be between 0 and 90."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/shop/marketplace/offers/discount/bulk": {
+            "put": {
+                "tags": [
+                    "Offer Discount"
+                ],
+                "summary": "Set or remove discounts on multiple offers",
+                "description": "Bulk version of the discount endpoint. Eligible offers are processed asynchronously via queue — status `applied` means the job was dispatched, not that the discount is already written to DB.\n     *\n     * `discount_percent = 0` removes both pending and applied (seller_lk) discounts for the given offer.",
+                "operationId": "e16715441246a03032d733477d1cb3ce",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "description": "API response format",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json",
+                            "enum": [
+                                "application/json"
+                            ]
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "offers"
+                                ],
+                                "properties": {
+                                    "offers": {
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "id",
+                                                "discount_percent"
+                                            ],
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 123
+                                                },
+                                                "discount_percent": {
+                                                    "description": "Discount percentage. 0 = remove discount.",
+                                                    "type": "integer",
+                                                    "maximum": 40,
+                                                    "minimum": 0,
+                                                    "example": 20
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "maxItems": 100,
+                                        "minItems": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "results": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 123
+                                                    },
+                                                    "status": {
+                                                        "description": "applied = discount queued for immediate application; pending = waiting for 14-day eligibility; removed = discount removed",
+                                                        "type": "string",
+                                                        "enum": [
+                                                            "applied",
+                                                            "pending",
+                                                            "removed"
+                                                        ],
+                                                        "example": "pending"
+                                                    },
+                                                    "eligible_at": {
+                                                        "description": "Present only when status = pending",
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2026-08-04T00:00:00+00:00",
+                                                        "nullable": true
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "errors": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 999
+                                                    },
+                                                    "reason": {
+                                                        "type": "string",
+                                                        "example": "Offer not found"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The offers field is required."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/shop/marketplace/offers/sold": {
+            "get": {
+                "tags": [
+                    "Offers"
+                ],
+                "summary": "Get verification activity for the last 10 minutes",
+                "description": "Returns all verification records created within the last 10 minutes (TTL window).\n     *\n     * Possible entry statuses: `in_verification` (order is being checked), `sold` (order passed verification and credential was delivered), `refunded` (order was refunded during verification).\n     *\n     * Data is served from Redis cache. Each call resets the seller's activity TTL (10 minutes),\n     * keeping the seller active so future verification events are written to cache.\n     *\n     * If the seller has been inactive for over 10 minutes, the cache is empty — use `/history` instead.\n     *\n     * Rate limit: 100 requests per minute, isolated from the global API rate limit (key: `sold_verification`).",
+                "operationId": "489a4ff5963b96eeae22e146514771c7",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json",
+                            "enum": [
+                                "application/json"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "order_id": {
+                                                        "type": "string",
+                                                        "example": "a3f9c2b1"
+                                                    },
+                                                    "status": {
+                                                        "type": "string",
+                                                        "enum": [
+                                                            "in_verification",
+                                                            "sold",
+                                                            "refunded"
+                                                        ],
+                                                        "example": "sold"
+                                                    },
+                                                    "offer": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 67
+                                                            },
+                                                            "title": {
+                                                                "type": "string",
+                                                                "example": "1000 Gold"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "credential": {
+                                                        "description": "Present only for account orders. null for currency orders.",
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 42
+                                                            },
+                                                            "status": {
+                                                                "type": "string",
+                                                                "enum": [
+                                                                    "reserved",
+                                                                    "active",
+                                                                    "sold"
+                                                                ],
+                                                                "example": "sold"
+                                                            }
+                                                        },
+                                                        "type": "object",
+                                                        "nullable": true
+                                                    },
+                                                    "verified_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2026-08-04T10:45:00+00:00"
+                                                    },
+                                                    "refunded_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": null,
+                                                        "nullable": true
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too Many Requests — rate limit: 100 requests per minute",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Too Many Attempts."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/shop/marketplace/offers/sold/history": {
+            "get": {
+                "tags": [
+                    "Offers"
+                ],
+                "summary": "Get verification history",
+                "description": "Returns paginated history of orders that entered manager verification for the authenticated seller.\n     *\n     * Data is served from the slave database. Supports date range filtering.\n     * Maximum 100 records per request.",
+                "operationId": "272056f92edb45b91d2e52fec7ba66db",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json",
+                            "enum": [
+                                "application/json"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "date_from",
+                        "in": "query",
+                        "description": "Filter records from this date (inclusive)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date",
+                            "example": "2026-08-01"
+                        }
+                    },
+                    {
+                        "name": "date_to",
+                        "in": "query",
+                        "description": "Filter records up to this date (inclusive). Must be >= date_from.",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date",
+                            "example": "2026-08-04"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Number of records per page. Capped at 100.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 50,
+                            "maximum": 100,
+                            "minimum": 1,
+                            "example": 50
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1,
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "order_id": {
+                                                        "type": "string",
+                                                        "example": "a3f9c2b1"
+                                                    },
+                                                    "status": {
+                                                        "type": "string",
+                                                        "enum": [
+                                                            "in_verification",
+                                                            "sold",
+                                                            "refunded"
+                                                        ],
+                                                        "example": "refunded"
+                                                    },
+                                                    "offer": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 67
+                                                            },
+                                                            "title": {
+                                                                "type": "string",
+                                                                "example": "1000 Gold"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "credential": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 42
+                                                            },
+                                                            "status": {
+                                                                "type": "string",
+                                                                "enum": [
+                                                                    "reserved",
+                                                                    "active",
+                                                                    "sold"
+                                                                ],
+                                                                "example": "active"
+                                                            }
+                                                        },
+                                                        "type": "object",
+                                                        "nullable": true
+                                                    },
+                                                    "verified_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2026-08-04T10:45:00+00:00"
+                                                    },
+                                                    "refunded_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2026-08-04T10:52:00+00:00",
+                                                        "nullable": true
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "meta": {
+                                            "properties": {
+                                                "pagination": {
+                                                    "properties": {
+                                                        "currentPage": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "perPage": {
+                                                            "type": "integer",
+                                                            "example": 50
+                                                        },
+                                                        "total": {
+                                                            "type": "integer",
+                                                            "example": 87
+                                                        },
+                                                        "lastPage": {
+                                                            "type": "integer",
+                                                            "example": 2
+                                                        },
+                                                        "from": {
+                                                            "type": "integer",
+                                                            "example": 1,
+                                                            "nullable": true
+                                                        },
+                                                        "to": {
+                                                            "type": "integer",
+                                                            "example": 50,
+                                                            "nullable": true
+                                                        },
+                                                        "path": {
+                                                            "type": "string",
+                                                            "example": "https://example.com/api/shop/marketplace/offers/sold/history"
+                                                        },
+                                                        "firstPageUrl": {
+                                                            "type": "string",
+                                                            "example": "https://example.com/api/shop/marketplace/offers/sold/history?page=1"
+                                                        },
+                                                        "lastPageUrl": {
+                                                            "type": "string",
+                                                            "example": "https://example.com/api/shop/marketplace/offers/sold/history?page=2"
+                                                        },
+                                                        "nextPageUrl": {
+                                                            "type": "string",
+                                                            "example": null,
+                                                            "nullable": true
+                                                        },
+                                                        "prevPageUrl": {
+                                                            "type": "string",
+                                                            "example": null,
+                                                            "nullable": true
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The date_to must be a date after or equal to date_from."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
         }
     },
     "components": {
         "schemas": {
             "OfferStatus": {
-                "description": "Offer status enum.\n     *\n     **Possible values:**\n     *\n     * - **1** (Draft): Offer is saved as draft and not visible to others\n     * - **2** (Active): Offer is active and visible to customers\n     * - **3** (Not Active): Offer is not active and not visible to customers\n     * - **4** (Need Details): Offer has not passed the review and needs additional details\n     * - **5** (On Review): Offer is under review\n     * - **6** (Sold): Offer has been sold or the order has been completed\n     * - **8** (Review Passed): Offer has passed the review and waiting for activation",
+                "description": "Offer status enum.\n     *\n     **Possible values:**\n     *\n     * - **1** (Draft): Offer is saved as draft and not visible to others\n     * - **2** (Active): Offer is active and visible to customers\n     * - **3** (Not Active): Offer is not active and not visible to customers\n     * - **4** (Need Details): Offer has not passed the review and needs additional details\n     * - **5** (On Review): Offer is under review\n     * - **6** (Sold): There is an order for this offer\n     * - **7** (Transfered): The order for this offer has been completed\n     * - **8** (Review Passed): Offer has passed the review and waiting for activation",
                 "type": "integer",
                 "enum": [
                     1,
@@ -2949,6 +3628,7 @@
                     4,
                     5,
                     6,
+                    7,
                     8
                 ],
                 "example": 3
@@ -3591,6 +4271,10 @@
         {
             "name": "Offer Credentials",
             "description": "Offer Credentials"
+        },
+        {
+            "name": "Offer Discount",
+            "description": "Offer Discount"
         }
     ]
 }
