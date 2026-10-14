@@ -1920,7 +1920,7 @@
                     {
                         "name": "status",
                         "in": "query",
-                        "description": "Filter by credential status. Omitted or `all` returns both active and sold credentials.\n     *\n     **Possible values:**\n     *\n     * - **active**: Credential is active and available for sale\n     * - **sold**: Credential was sold (stays available via the API after the sale)\n     * - **all** (default): No filtering\n     *\n     * Legacy numeric values are still accepted: `1` = `active`, `2` = `sold`.",
+                        "description": "Filter by credential status. Omitted or `all` returns active, sold and reserved credentials.\n     *\n     **Possible values:**\n     *\n     * - **active**: Credential is active and available for sale\n     * - **sold**: Credential was sold or is currently on hold (reserved — order in manager verification)\n     * - **all** (default): No filtering\n     *\n     * Legacy numeric values are still accepted: `1` = `active`, `2` = `sold`.",
                         "schema": {
                             "type": "string",
                             "default": "all",
@@ -2378,7 +2378,7 @@
                     "Offer Credentials"
                 ],
                 "summary": "Update credential",
-                "description": "Available only for offers with `credential_system_type_id = 3` (MULTIPLE / credential-mode).\n     *\n     * `credential_system_type_id` is the authoritative delivery-mode field. Values: 1 = No Credentials (manual delivery via chat),\n     * 2 = Single (deprecated — coerced to MULTIPLE on write), 3 = Multiple.",
+                "description": "Available only for offers with `credential_system_type_id = 3` (MULTIPLE / credential-mode).\n     *\n     * `credential_system_type_id` is the authoritative delivery-mode field. Values: 1 = No Credentials (manual delivery via chat),\n     * 2 = Single (deprecated — coerced to MULTIPLE on write), 3 = Multiple.\n     *\n     * **Hold restriction:** credentials with `status = 3` (Reserved / on hold) cannot be updated — the request returns HTTP 403.\n     * A credential is on hold while the buyer's order sits in manager verification. Use `GET /api/shop/marketplace/offers/sold`\n     * to see which credentials are currently on hold.",
                 "operationId": "b64831d806972f98fa011143f8eb290f",
                 "parameters": [
                     {
@@ -2535,7 +2535,7 @@
                     "Offer Credentials"
                 ],
                 "summary": "Delete credential",
-                "description": "Available only for offers with `credential_system_type_id = 3` (MULTIPLE / credential-mode).\n     *\n     * `credential_system_type_id` is the authoritative delivery-mode field. Values: 1 = No Credentials (manual delivery via chat),\n     * 2 = Single (deprecated — coerced to MULTIPLE on write), 3 = Multiple.",
+                "description": "Available only for offers with `credential_system_type_id = 3` (MULTIPLE / credential-mode).\n     *\n     * `credential_system_type_id` is the authoritative delivery-mode field. Values: 1 = No Credentials (manual delivery via chat),\n     * 2 = Single (deprecated — coerced to MULTIPLE on write), 3 = Multiple.\n     *\n     * **Hold restriction:** credentials with `status = 3` (Reserved / on hold) cannot be deleted — the request returns HTTP 403.\n     * A credential is on hold while the buyer's order sits in manager verification. Use `GET /api/shop/marketplace/offers/sold`\n     * to see which credentials are currently on hold.",
                 "operationId": "b8c27c5594e84c75fd65d676ba3f64eb",
                 "parameters": [
                     {
@@ -3634,11 +3634,12 @@
                 "example": 3
             },
             "CredentialStatus": {
-                "description": "Credential status enum.\n     *\n     **Possible values:**\n     *\n     * - **1** (Active): Credential is active and available for sale\n     * - **2** (Sold): Credential was sold",
+                "description": "Credential status enum.\n     *\n     **Possible values:**\n     *\n     * - **1** (Active): Credential is active and available for sale\n     * - **2** (Sold): Credential was sold\n     * - **3** (Reserved / on hold): Credential is locked while the buyer's order sits in manager verification.\n     *   On successful verification it moves to `2` (Sold); if the order is refunded during verification it returns to `1` (Active).\n     *   While reserved, the credential cannot be updated or deleted — any such request returns HTTP 403.\n     *   Poll `GET /api/shop/marketplace/offers/sold` to see which credentials are currently on hold.",
                 "type": "integer",
                 "enum": [
                     1,
-                    2
+                    2,
+                    3
                 ],
                 "example": 1
             },
