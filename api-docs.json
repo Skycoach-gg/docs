@@ -141,6 +141,15 @@
                                                         ],
                                                         "example": 2
                                                     },
+                                                    "delivery_time_format": {
+                                                        "description": "Delivery time format of the product offers. range is possible only for Gold marketplace: offers may then carry guarantee_delivery_time_to.",
+                                                        "type": "string",
+                                                        "enum": [
+                                                            "single",
+                                                            "range"
+                                                        ],
+                                                        "example": "single"
+                                                    },
                                                     "related_product": {
                                                         "type": "array",
                                                         "items": {
@@ -415,6 +424,15 @@
                                                         2
                                                     ],
                                                     "example": 2
+                                                },
+                                                "delivery_time_format": {
+                                                    "description": "Delivery time format of the product offers. range is possible only for Gold marketplace: offers may then carry guarantee_delivery_time_to.",
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "single",
+                                                        "range"
+                                                    ],
+                                                    "example": "single"
                                                 },
                                                 "related_product": {
                                                     "type": "array",
@@ -781,6 +799,12 @@
                                                     "guarantee_delivery_time": {
                                                         "type": "integer",
                                                         "example": 86400000
+                                                    },
+                                                    "guarantee_delivery_time_to": {
+                                                        "description": "Upper bound of the delivery time range in milliseconds. null when the offer has a single delivery time.",
+                                                        "type": "integer",
+                                                        "example": null,
+                                                        "nullable": true
                                                     },
                                                     "credential_system_type_id": {
                                                         "description": "Authoritative delivery-mode field. Values: 1 = No Credentials (stock-mode, seller-managed amount), 2 = Single (deprecated — coerced to MULTIPLE on write), 3 = Multiple (credential-mode, amount derived from active credentials). Defaults to 3 on create.",
@@ -1920,7 +1944,7 @@
                     {
                         "name": "status",
                         "in": "query",
-                        "description": "Filter by credential status. Omitted or `all` returns active, sold and reserved credentials.\n     *\n     **Possible values:**\n     *\n     * - **active**: Credential is active and available for sale\n     * - **sold**: Credential was sold or is currently on hold (reserved — order in manager verification)\n     * - **all** (default): No filtering\n     *\n     * Legacy numeric values are still accepted: `1` = `active`, `2` = `sold`.",
+                        "description": "Filter by credential status. Omitted or `all` returns both active and sold credentials.\n     *\n     **Possible values:**\n     *\n     * - **active**: Credential is active and available for sale\n     * - **sold**: Credential was sold (stays available via the API after the sale)\n     * - **all** (default): No filtering\n     *\n     * Legacy numeric values are still accepted: `1` = `active`, `2` = `sold`.",
                         "schema": {
                             "type": "string",
                             "default": "all",
@@ -2378,7 +2402,7 @@
                     "Offer Credentials"
                 ],
                 "summary": "Update credential",
-                "description": "Available only for offers with `credential_system_type_id = 3` (MULTIPLE / credential-mode).\n     *\n     * `credential_system_type_id` is the authoritative delivery-mode field. Values: 1 = No Credentials (manual delivery via chat),\n     * 2 = Single (deprecated — coerced to MULTIPLE on write), 3 = Multiple.\n     *\n     * **Hold restriction:** credentials with `status = 3` (Reserved / on hold) cannot be updated — the request returns HTTP 403.\n     * A credential is on hold while the buyer's order sits in manager verification. Use `GET /api/shop/marketplace/offers/sold`\n     * to see which credentials are currently on hold.",
+                "description": "Available only for offers with `credential_system_type_id = 3` (MULTIPLE / credential-mode).\n     *\n     * `credential_system_type_id` is the authoritative delivery-mode field. Values: 1 = No Credentials (manual delivery via chat),\n     * 2 = Single (deprecated — coerced to MULTIPLE on write), 3 = Multiple.",
                 "operationId": "b64831d806972f98fa011143f8eb290f",
                 "parameters": [
                     {
@@ -2535,7 +2559,7 @@
                     "Offer Credentials"
                 ],
                 "summary": "Delete credential",
-                "description": "Available only for offers with `credential_system_type_id = 3` (MULTIPLE / credential-mode).\n     *\n     * `credential_system_type_id` is the authoritative delivery-mode field. Values: 1 = No Credentials (manual delivery via chat),\n     * 2 = Single (deprecated — coerced to MULTIPLE on write), 3 = Multiple.\n     *\n     * **Hold restriction:** credentials with `status = 3` (Reserved / on hold) cannot be deleted — the request returns HTTP 403.\n     * A credential is on hold while the buyer's order sits in manager verification. Use `GET /api/shop/marketplace/offers/sold`\n     * to see which credentials are currently on hold.",
+                "description": "Available only for offers with `credential_system_type_id = 3` (MULTIPLE / credential-mode).\n     *\n     * `credential_system_type_id` is the authoritative delivery-mode field. Values: 1 = No Credentials (manual delivery via chat),\n     * 2 = Single (deprecated — coerced to MULTIPLE on write), 3 = Multiple.",
                 "operationId": "b8c27c5594e84c75fd65d676ba3f64eb",
                 "parameters": [
                     {
@@ -3292,25 +3316,27 @@
                                                         },
                                                         "type": "object"
                                                     },
-                                                    "credential": {
-                                                        "description": "Present only for account orders. null for currency orders.",
-                                                        "properties": {
-                                                            "id": {
-                                                                "type": "integer",
-                                                                "example": 42
+                                                    "credentials": {
+                                                        "description": "All credentials of the order: an order of N units has up to N. Empty for currency orders and stock-mode offers.",
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "id": {
+                                                                    "type": "integer",
+                                                                    "example": 42
+                                                                },
+                                                                "status": {
+                                                                    "type": "string",
+                                                                    "enum": [
+                                                                        "reserved",
+                                                                        "active",
+                                                                        "sold"
+                                                                    ],
+                                                                    "example": "sold"
+                                                                }
                                                             },
-                                                            "status": {
-                                                                "type": "string",
-                                                                "enum": [
-                                                                    "reserved",
-                                                                    "active",
-                                                                    "sold"
-                                                                ],
-                                                                "example": "sold"
-                                                            }
-                                                        },
-                                                        "type": "object",
-                                                        "nullable": true
+                                                            "type": "object"
+                                                        }
                                                     },
                                                     "verified_at": {
                                                         "type": "string",
@@ -3477,24 +3503,27 @@
                                                         },
                                                         "type": "object"
                                                     },
-                                                    "credential": {
-                                                        "properties": {
-                                                            "id": {
-                                                                "type": "integer",
-                                                                "example": 42
+                                                    "credentials": {
+                                                        "description": "All credentials of the order: an order of N units has up to N.",
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "id": {
+                                                                    "type": "integer",
+                                                                    "example": 42
+                                                                },
+                                                                "status": {
+                                                                    "type": "string",
+                                                                    "enum": [
+                                                                        "reserved",
+                                                                        "active",
+                                                                        "sold"
+                                                                    ],
+                                                                    "example": "active"
+                                                                }
                                                             },
-                                                            "status": {
-                                                                "type": "string",
-                                                                "enum": [
-                                                                    "reserved",
-                                                                    "active",
-                                                                    "sold"
-                                                                ],
-                                                                "example": "active"
-                                                            }
-                                                        },
-                                                        "type": "object",
-                                                        "nullable": true
+                                                            "type": "object"
+                                                        }
                                                     },
                                                     "verified_at": {
                                                         "type": "string",
@@ -3634,12 +3663,11 @@
                 "example": 3
             },
             "CredentialStatus": {
-                "description": "Credential status enum.\n     *\n     **Possible values:**\n     *\n     * - **1** (Active): Credential is active and available for sale\n     * - **2** (Sold): Credential was sold\n     * - **3** (Reserved / on hold): Credential is locked while the buyer's order sits in manager verification.\n     *   On successful verification it moves to `2` (Sold); if the order is refunded during verification it returns to `1` (Active).\n     *   While reserved, the credential cannot be updated or deleted — any such request returns HTTP 403.\n     *   Poll `GET /api/shop/marketplace/offers/sold` to see which credentials are currently on hold.",
+                "description": "Credential status enum.\n     *\n     **Possible values:**\n     *\n     * - **1** (Active): Credential is active and available for sale\n     * - **2** (Sold): Credential was sold",
                 "type": "integer",
                 "enum": [
                     1,
-                    2,
-                    3
+                    2
                 ],
                 "example": 1
             },
@@ -3680,7 +3708,7 @@
                 "example": 4
             },
             "CreateOfferRequest": {
-                "description": "Request to create a new offer. IMPORTANT: Before creating an offer, you MUST get the product details first to know the correct marketplace_type and field requirements. Step-by-step: 1) Get product details via GET /shop/marketplace/products/{productId}, 2) Check the marketplace_type field in response (1 for Gold, 2 for Account), 3) Use the same marketplace_type value in your request. For Account marketplace (marketplace_type = 2): amount MUST be exactly 1, min_purchase_amount MUST be exactly 1, status MUST be 1 (Draft), data is optional. For Gold marketplace (marketplace_type = 1): amount can be 1-2000000000, min_purchase_amount can be 1-2000000000, status can be 1 (Draft) or 2 (Active), data is required.",
+                "description": "Request to create a new offer. IMPORTANT: Before creating an offer, you MUST get the product details first to know the correct marketplace_type and field requirements. Step-by-step: 1) Get product details via GET /shop/marketplace/products/{productId}, 2) Check the marketplace_type field in response (1 for Gold, 2 for Account), 3) Use the same marketplace_type value in your request. For Account marketplace (marketplace_type = 2): amount is the number of units in stock (NO_CREDENTIALS offers: required, 1-2000000000; MULTIPLE offers: derived from active credentials, if sent MUST be 1), min_purchase_amount MUST be exactly 1, status MUST be 1 (Draft), data is optional. For Gold marketplace (marketplace_type = 1): amount can be 1-2000000000, min_purchase_amount can be 1-2000000000, status can be 1 (Draft) or 2 (Active), data is required.",
                 "required": [
                     "offers",
                     "guarantee_delivery_time"
@@ -3707,7 +3735,7 @@
                                     "example": 100
                                 },
                                 "amount": {
-                                    "description": "Currency amount.\n     *\n     **For Gold marketplace (marketplace_type = 1):**\n     * - Minimum: 1\n     * - Maximum: 2000000000\n     *\n     **For Account marketplace (marketplace_type = 2):**\n     * - **MUST be exactly 1** (min: 1, max: 1)\n     * - Example: 1\n     *\n     **Important:** For Account marketplace, this field must be exactly 1, otherwise validation will fail with error: The amount field must not be greater than 1.",
+                                    "description": "Currency amount.\n     *\n     **For Gold marketplace (marketplace_type = 1):**\n     * - Minimum: 1\n     * - Maximum: 2000000000\n     *\n     **For Account marketplace (marketplace_type = 2):** number of units in stock; a buyer can order several units in one order\n     * - NO_CREDENTIALS offers (credential_system_type_id = 1): required, integer, 1-2000000000, managed by the seller\n     * - MULTIPLE offers (credential_system_type_id = 3): derived by the server from the active credentials count; optional, if sent MUST be 1\n     * - Example: 5",
                                     "type": "number",
                                     "format": "float",
                                     "maximum": 2000000000,
@@ -3864,7 +3892,7 @@
                                     "example": 100
                                 },
                                 "amount": {
-                                    "description": "Currency amount. For gold marketplace: minimum 1, maximum 2000000000. For account marketplace: minimum 1, maximum 1",
+                                    "description": "Currency amount.\n     *\n     **For Gold marketplace (marketplace_type = 1):**\n     * - Minimum: 1\n     * - Maximum: 2000000000\n     *\n     **For Account marketplace (marketplace_type = 2):** number of units in stock; a buyer can order several units in one order\n     * - NO_CREDENTIALS offers (credential_system_type_id = 1): required, integer, 1-2000000000, managed by the seller\n     * - MULTIPLE offers (credential_system_type_id = 3): derived by the server from the active credentials count; optional, if sent MUST be 1\n     * - Example: 5",
                                     "type": "number",
                                     "format": "float",
                                     "maximum": 2000000000,
@@ -4065,7 +4093,7 @@
                                     "example": 100
                                 },
                                 "amount": {
-                                    "description": "Offer amount. For account marketplace: minimum 1, maximum 1. For gold marketplace: minimum 1, maximum 2000000000",
+                                    "description": "Offer amount.\n     *\n     **For Gold marketplace (marketplace_type = 1):**\n     * - Minimum: 1\n     * - Maximum: 2000000000\n     *\n     **For Account marketplace (marketplace_type = 2):** number of units in stock; a buyer can order several units in one order\n     * - NO_CREDENTIALS offers (credential_system_type_id = 1): integer, 1-2000000000, managed by the seller; required for a new offer, optional when 'id' is sent\n     * - MULTIPLE offers (credential_system_type_id = 3): derived by the server from the active credentials count; optional, if sent MUST be 1\n     * - The rule is chosen by credential_system_type_id sent in the same offer object; without it the NO_CREDENTIALS rule applies\n     * - Example: 5",
                                     "type": "number",
                                     "format": "float",
                                     "maximum": 2000000000,
@@ -4229,10 +4257,16 @@
                         "minItems": 1
                     },
                     "guarantee_delivery_time": {
-                        "description": "Guaranteed delivery time in milliseconds (e.g., 86400000 for 24 hours)",
+                        "description": "Guaranteed delivery time in milliseconds (e.g., 86400000 for 24 hours). When the product delivery_time_format is range, this is the lower bound.",
                         "type": "integer",
                         "minimum": 1,
                         "example": 86400000
+                    },
+                    "guarantee_delivery_time_to": {
+                        "description": "Upper bound of the delivery time range in milliseconds, must be greater than guarantee_delivery_time. Optional; applied only when the product delivery_time_format is range (Gold marketplace), ignored otherwise. Without it the offer keeps a single delivery time.",
+                        "type": "integer",
+                        "example": 172800000,
+                        "nullable": true
                     }
                 },
                 "type": "object"
